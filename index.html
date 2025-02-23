@@ -485,7 +485,7 @@ body.modal-open {
     right: 10px;
     font-size: 24px;
     color: #030303;
-    background:linear-gradient(45deg, #ff9933, #ffdd44);
+    background:red;
     cursor: pointer;
     transition: color 0.3s;
 }
@@ -498,7 +498,7 @@ body.modal-open {
 /* Message inside the popup */
 #popup-message-lunch, 
 #popup-message-dinner {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     color: #030303;
 }
@@ -882,26 +882,27 @@ body.modal-open {
 
         <div class="order-type-box">
             
-            <DIV>
+            <div>
                <h3 style="margin-left: 10px; font-size: 20px; font-weight: bold; color: #333; text-align: left;">Date</h3>
                 <input type="date" id="lunch-date" style="font-size: 16px;">
-         </div>       
+            </div>       
                 
 
                 
-                <div id="lunch-order-end-date-container" style="display: none;">
+            <div id="lunch-order-end-date-container" style="display: none;">
                     <h3 for="lunch-order-end-date" style="margin-left: 10px; font-size: 20px; font-weight: bold; color: #333; text-align: left;">End Date</h3>
                     <input type="date" id="lunch-order-end-date" style="font-size: 16px;" readonly>
-                </div>
-                   
             </div>
+                   
+        </div>
         
             
         <div class="order-type-box">
             
-           
-            <h4 class="order-type" style="margin-left: 10px; font-size: 20px; font-weight: bold; color: #333; text-align: left;">Meal Type</h4>
-            <br>
+            <div class="hover-underline2">
+                <h4 class="order-type" style="margin-left: 10px; font-size: 20px; font-weight: bold; color: #333; text-align: left;">Meal Type</h4>
+                <br>
+            </div>
 
             <label class="containerMeal">Full Lunch (₹100)
                 <input type="radio" name="radio2" id="roti-full-lunch" value="100" checked>
@@ -941,8 +942,10 @@ body.modal-open {
        
             <div id="roti-container" >
                 <div class="order-type-box">
-                    <h4 style="margin-left: 10px;">Quantity of Roti</h4>
-                    
+                        <div class="hover-underline">
+                            <h4 style="margin-left: 10px;">Quantity of Roti</h4>
+                                                      
+                        </div>
                     <div class="switch">
                         
                         <div>
@@ -982,27 +985,32 @@ body.modal-open {
             <br>
             <div id="upi-container-lunch" class="upi-container" style="display: none;">
                     <br>
-                 <div  class="wrap">
-                    <button class="paymentd-btn" id="payment-button"> Click Here To Pay</button>
-                </div>   
+               
+                    <div  class="wrap">
+                        <button class="paymentd-btn" id="payment-button"> Click Here To Pay</button>
+                    </div>   
                 <br>
                 
-                <div>
-                    <span id="upi-text-lunch" style="margin-left: 10px; color: red; font-size: 18px;">8141154868@ptsbi</span>
-                    <button onclick="copyUPI('upi-text-lunch', 'copy-message-lunch')" style="cursor:pointer">📋</button>
-                    
+           
+                <div style="text-align: center;">
+                    <span id="upi-text-lunch" style="color: red; font-size: 18px;">8141154868@ptsbi</span>
+                    <button onclick="copyUPI('upi-text-lunch', 'copy-message-lunch')" style="cursor: pointer; border: none; background: none; font-size: 18px;">📋</button>
                     <span id="copy-message-lunch" style="color: red; display: none; margin-left: 10px;">Copied</span>
-                
-                    <h3 >Name</h3>
-                        <label >Reference ID number</label>
-                        <input type="text" id="reference-id" placeholder="Enter last four digits of Reference Number" required maxlength="4" pattern="\d{4}" title="Only 4 digits are allowed.">
                 </div>
-                    <br>
-                    
-                    
-                    
-                    <button class="cool-button" id="order-button" onclick="placeOrder()">Submit Order</button>
 
+
+                <div class="order-type-box">
+                                    
+                        <div class="hover-underline">   
+                            <h3 style="margin-left: 10px; font-size: 20px; font-weight: bold; color: #333; text-align: left;">Reference ID number</h3>
+                        </div>
+                        <input type="text" id="reference-id" placeholder = " Enter last four digits of Reference Number" required maxlength="4" pattern="\d{4}" title="Only 4 digits are allowed.">
+                    
+                        <button class="cool-button" id="order-button" onclick="placeOrder()">Submit Order</button>
+                        
+                </div>
+                    
+                
             </div>
 
         </div>
@@ -1065,7 +1073,8 @@ body.modal-open {
             </label>
         </div>    
             
-            
+      
+         
             <div class="order-type-box">
                
                 <div>
@@ -1103,20 +1112,25 @@ body.modal-open {
 
                 <br>
                 
-                <span id="upi-text-dinner" style="margin-left: 10px; color:red">8141154868@ptsbi</span>
-                <button onclick="copyUPI('upi-text-dinner', 'copy-message-dinner')" style="cursor:pointer">📋</button>
                 
-                <span id="copy-message-dinner" style="color: red; display: none; margin-left: 10px;">Copied</span>
+                <div style="text-align: center;">
+                    <span id="upi-text-dinner" style="color: red; font-size: 18px;">8141154868@ptsbi</span>
+                    <button onclick="copyUPI('upi-text-dinner', 'copy-message-dinner')" style="cursor: pointer; border: none; background: none; font-size: 18px;">📋</button>
+                    <span id="copy-message-dinner" style="color: red; display: none; margin-left: 10px;">Copied</span>
+                </div>
                 
-                
-                
-                    <label>Reference ID number</label>
-                    <input type="text" id="reference-id-dinner" placeholder="Enter last four digits of Reference Number" required maxlength="4" pattern="\d{4}" title="Only 4 digits are allowed.">
-                    <br>
-                <br>
-                
-                <button class="cool-button" id="order-button-dinner" onclick="placeOrder1()">Submit Order</button>
+               
 
+                <div class="order-type-box">
+                                        
+                        <div class="hover-underline">   
+                            <h3 style="margin-left: 10px; font-size: 20px; font-weight: bold; color: #333; text-align: left;">Reference ID number</h3>
+                        </div>
+                        <input type="text" id="reference-id-dinner" placeholder = " Enter last four digits of Reference Number" required maxlength="4" pattern="\d{4}" title="Only 4 digits are allowed.">
+                    
+                        <button class="cool-button" id="order-button-dinner" onclick="placeOrder1()">Submit Order</button>
+                        
+                </div>
             </div>
 
         </div>
