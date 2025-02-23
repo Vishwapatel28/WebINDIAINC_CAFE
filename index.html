@@ -218,7 +218,7 @@ body.modal-open {
             box-sizing: border-box; /* Ensures uniform width inside parent container */
         }
         #proceed-payment-btn-lunch {
-            background: linear-gradient(45deg,#7186eb, #1f8616);
+            background: green;
             color: white;
             font-size: 20px;
             
@@ -246,7 +246,7 @@ body.modal-open {
         }
 
         #proceed-payment-btn-dinner {
-            background: linear-gradient(45deg, #37b40e, #506ce0);
+            background: green;
             color: white;
             font-size: 20px;
             margin-top: 20px;
@@ -274,6 +274,7 @@ body.modal-open {
             justify-content: center;
             align-items: center;
             width: 100%;
+            
         }
         
         .cool-button {
@@ -292,6 +293,7 @@ body.modal-open {
             box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.7);
         }
         
+
         .cool-button:hover {
             background: black;
             transform: translateY(-3px);
@@ -345,7 +347,8 @@ body.modal-open {
     transform: translateY(-3px);
 }
 
-.order-type-box h3 {
+.order-type-box h3 
+{
     text-align: center;
     font-size: 18px;
     font-weight: bold;
@@ -784,6 +787,8 @@ body.modal-open {
     opacity: 0;
   }
 }
+
+
 
     </style>
 </head>
@@ -1324,8 +1329,9 @@ document.addEventListener("DOMContentLoaded", function () {
         let selectedDate = event.target.value;
         let selectedDay = new Date(selectedDate).getDay();
 
-        if (selectedDay === 0 || selectedDay === 6) {
-            showPopup("Weekend mode: ON. Orders mode: OFF. See you on Monday! 😎", popupId);
+        if (selectedDay === 0 || selectedDay === 6) 
+        {
+            showPopup("Weekends Mode: ON. Orders Mode: OFF. See you on Monday! 😎", popupId);
             event.target.value = "";
             return;
         }
@@ -2019,7 +2025,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const paymentButton = document.getElementById("payment-button");
     if (paymentButton) {
         paymentButton.addEventListener("click", function () {
-            window.open("https://tinyurl.com/4jradwum", "_blank");
+            window.open("upi://pay?pa=9512039029.eazypay@icici&pn=Lunch%20Payment&am=${totalAmount.toFixed(2)}&cu=INR", "_blank");
         });
     } else {
         console.error("Payment button element with ID 'payment-button' not found!");
@@ -2056,7 +2062,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (paymentButtonDinner) 
     {
         paymentButtonDinner.addEventListener("click", function () {
-            window.open("upi://pay?pa=9512039029.eazypay@icici&pn=Lunch%20Payment&am=${totalAmount}&cu=INR", "_blank");
+            window.open("upi://pay?pa=9512039029.eazypay@icici&pn=Lunch%20Payment&am=${totalAmount.toFixed(2)}&cu=INR", "_blank");
         });
     } else {
         console.error("Payment button element with ID 'payment-button' not found!");
