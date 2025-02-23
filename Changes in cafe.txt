@@ -1,0 +1,9 @@
+1st PAyment option when user click 100 then they go to gpay and pay 100
+2nd changes in cross button do it red
+3rd In popup use break <br> to next line some owrds
+4th Your order is placed then show the popup or anything else like a feedback
+5th Niche jae proceed to pay naa niche vagi nthi do proper ok
+6th chnages colors in below
+7th maa do hover whereveer it needde
+8th Click here to pay chnage color and refrencce id chnage make to box like order type
+9th LInes when date is not slected make it funny

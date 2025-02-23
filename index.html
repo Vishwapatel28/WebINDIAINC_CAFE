@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Order Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 450px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+        
+        /* Updated Button Styles */
+        .meal-btn {
+            /*display: block;*/
+            width: 60%;
+            padding: 14px;
+            font-size: 17px;
+            font-weight: bold;
+            color: white;
+            background: #007bff;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: background 0.3s ease, transform 0.2s ease-in-out, box-shadow 0.3s;
+            box-shadow: 0px 5px 10px rgba(0, 123, 255, 0.3);
+        }
+        .meal-btn:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+            box-shadow: 0px 8px 15px rgba(0, 123, 255, 0.4);
+        }
+        .menu-btn {
+            /*display: block;*/
+            width: 80%;
+            padding: 15px;
+            font-size: 17px;
+            font-weight: bold;
+            color: white;
+            background: #007bff;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: background 0.3s ease, transform 0.2s ease-in-out, box-shadow 0.3s;
+            box-shadow: 0px 5px 10px rgba(0, 123, 255, 0.3);
+        }
+        .menu-btn:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+            box-shadow: 0px 8px 15px rgba(0, 123, 255, 0.4);
+        }
+        
+        /* Popup Background */
+        .popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Darker background for better visibility */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Ensure it's above everything */
+}
+
+        /* Ensure Modal is on Top */
+.popup-content {
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    max-width: 80%;
+    max-height: 80%;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+    z-index: 10000; /* Keep above the overlay */
+}
+
+       /* Ensure Image is Visible */
+.popup-content img {
+    max-width: 100%;
+    max-height: 600px;
+    border-radius: 5px;
+    display: block; /* Always show image inside modal */
+}
+
+
+/* Prevent Background Interaction */
+body.modal-open {
+    overflow: hidden; /* Prevent scrolling when modal is open */
+}
+
+        /* Close Button */
+        .close-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 30px;
+            height: 30px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            font-weight: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s ease-in-out, transform 0.2s;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .close-btn:hover {
+            background: black;
+            transform: scale(1.1);
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .btn {
+            flex: 1;
+            padding: 10px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+        }
+        .btn-lunch { 
+        background: linear-gradient(45deg, #ff9933, #ffdd44); 
+        color: #5a320b; /* Dark brown for better contrast */
+        box-shadow: 0px 8px 15px rgba(9, 9, 9, 0.4); 
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight:bold;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .btn-lunch:hover
+        {
+            background: #000000;
+            color:white;
+            transform: scale(1.05);
+            box-shadow: 0px 8px 15px rgba(0, 123, 255, 0.7);
+        }
+        
+        .btn-dinner 
+        { 
+        background: linear-gradient(45deg, #ff9933, #ffdd44); 
+        color: #5a320b; /* Dark brown for better contrast */
+        box-shadow: 0px 8px 15px rgba(9, 9, 9, 0.4); 
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight:bold;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+            
+        }
+        .btn-dinner:hover
+        {
+            background: #000000;
+            color:white;
+            transform: scale(1.05);
+            box-shadow: 0px 8px 15px rgba(0, 123, 255, 0.7);
+        }
+        
+        
+        .btn span
+         {
+             font-size: 14px; margin-top: 5px;
+         }
+        .menu-options 
+        { 
+            display: none;
+            margin-top: 20px; 
+            text-align: left;
+            font-size: 20px;
+        }
+        label 
+        { 
+            font-weight: bold; 
+            display: block; 
+            margin-top: 10px;
+            margin-left: 9px;
+        }
+        select, input {
+            
+            width: 95%; /* Change from 95% to 100% */
+            padding: 10px;
+            margin-top: 5px; /* Reduce margin for better alignment */
+            margin-left: 9px;        
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; /* Ensures uniform width inside parent container */
+        }
+        #proceed-payment-btn-lunch {
+            background: linear-gradient(45deg,#7186eb, #1f8616);
+            color: white;
+            font-size: 20px;
+            
+            margin-top: 20px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+            
+
+            
+        }
+
+        #proceed-payment-btn-lunch:hover {
+            background: linear-gradient(45deg, #090909, #464445);
+            transform: scale(1.05);
+            
+        }
+
+        #proceed-payment-btn-lunch:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px rgba(11, 11, 11, 0.2);
+        }
+
+        #proceed-payment-btn-dinner {
+            background: linear-gradient(45deg, #37b40e, #506ce0);
+            color: white;
+            font-size: 20px;
+            margin-top: 20px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+            
+        }
+
+        #proceed-payment-btn-dinner:hover {
+            background: linear-gradient(45deg, #464445, #090909);
+            transform: scale(1.05);
+        }
+
+        #proceed-payment-btn-dinner:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .cool-button {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            overflow: hidden;
+            display: block;
+            margin: 20px auto;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.7);
+        }
+        
+        .cool-button:hover {
+            background: black;
+            transform: translateY(-3px);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /*.cool-button.clicked {*/
+        /*    background: linear-gradient(135deg, #ff9800, #ff5722);*/
+        /*    color: white;*/
+        /*    pointer-events: none;*/
+        /*    font-size: 20px;*/
+        /*    font-weight: bold;*/
+        /*    padding: 14px 28px;*/
+        /*    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);*/
+        /*}*/
+        .cool-button.clicked 
+        {
+            background: linear-gradient(135deg, #ff9800, #ff5722);
+            color: white;
+            pointer-events: none;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 14px 28px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.7);
+        }
+        
+        @media (max-width: 600px) {
+            .cool-button {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+            .cool-button.clicked {
+                font-size: 18px;
+                padding: 12px 24px;
+            }
+        }
+        
+        .order-type-box {
+    background: #ffffff; /* White background */
+    padding: 20px;
+    border-radius: 12px; /* Slightly more rounded corners */
+    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.5); /* Strong black shadow */
+    margin: 20px 0;
+    width: 90%;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Slight lift effect on hover */
+.order-type-box:hover {
+    box-shadow: 12px 12px 20px rgba(0, 0, 0, 0.6); 
+    transform: translateY(-3px);
+}
+
+.order-type-box h3 {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Styling radio buttons and labels */
+.order-type-box label {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    padding: 10px;
+    background: #f8f8f8;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Radio button styling */
+.order-type-box input[type="radio"] {
+    accent-color: #ff9933;
+    margin-right: 12px;
+    transform: scale(1.2);
+}
+
+/* Hover effect on options */
+.order-type-box label:hover {
+    background: #ffcc80;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02);
+}
+@media (max-width: 480px) {
+    .order-type-box {
+        width: 95%; /* Make it more flexible */
+        padding: 15px; /* Reduce padding for small screens */
+    }
+}
+
+
+
+
+
+
+                .hover-underline {
+                 position: relative;
+              display: inline-block;
+            }
+            
+            .hover-underline::after,
+            .hover-underline::before {
+              content: '';
+              position: absolute;
+              width: 100%;
+              height: 2px;
+              background: linear-gradient(to right, #ff0000, #00ffff);
+              bottom: 3px;
+              left: 0;
+              transform: scaleX(0);
+              transform-origin: right;
+              transition: transform 0.4s ease-out;
+            }
+            
+            .hover-underline::before {
+              top: 11px;
+              transform-origin: left;
+            }
+            
+            .hover-underline:hover::after,
+            .hover-underline:hover::before {
+              transform: scaleX(1);
+            }
+            
+            /*Underlin2*/
+            
+                .hover-underline2 {
+                 position: relative;
+              display: inline-block;
+            }
+            
+            .hover-underline2::after,
+            .hover-underline2::before {
+              content: '';
+              position: absolute;
+              width: 100%;
+              height: 2px;
+              background: linear-gradient(to right, #ff0000, #00ffff);
+              bottom: 12px;
+              left: 0;
+              transform: scaleX(0);
+              transform-origin: right;
+              transition: transform 0.4s ease-out;
+            }
+            
+            .hover-underline2::before {
+              top: -8px;
+              transform-origin: left;
+            }
+            
+            .hover-underline2:hover::after,
+            .hover-underline2:hover::before {
+              transform: scaleX(1);
+            }
+            
+            
+            
+            /* Popup Box Styles */
+.popup-box {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Background with some transparency */
+    z-index: 9999; /* Ensure the popup is on top of other content */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Popup Content Styles */
+.popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Close Button Styles */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #030303;
+    background:linear-gradient(45deg, #ff9933, #ffdd44);
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: white;
+    background:blue;
+}
+
+/* Message inside the popup */
+#popup-message-lunch, 
+#popup-message-dinner {
+    font-size: 16px;
+    font-weight: bold;
+    color: #030303;
+}
+
+
+            
+            /* Hide the browser's default radio button */
+        .containerR 
+         {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Moves text left and radio right */
+            width: 85%; /* Adjust width as needed */
+            position: relative;
+            cursor: pointer;
+            font-size: 16px;
+            
+        }
+
+
+            .containerR input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            }
+
+            .checkmark {
+            position: relative;
+            height: 23px;
+            width: 23px;
+            background-color: #eee;
+            border-radius: 50%;
+            margin-left:auto; /* Space between text and radio button */
+            }
+
+            /* On mouse-over, add a grey background color */
+            .containerR:hover input ~ .checkmark {
+            background-color: orange;
+            }
+
+            /* When the radio button is checked, add a blue background */
+            .containerR input:checked ~ .checkmark {
+            background-color: #2196F3;
+            }
+
+            /* Create the indicator (the dot/circle - hidden when not checked) */
+            .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+            }
+
+            /* Show the indicator (dot/circle) when checked */
+            .containerR input:checked ~ .checkmark:after {
+            display: block;
+            }
+
+            /* Style the indicator (dot/circle) */
+            .containerR .checkmark:after {
+            top: 8px;
+            left: 8px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+            }  
+            /* Hide the browser's default radio button */
+.containerMeal 
+{
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Moves text left and radio right */
+  width: 85%; /* Adjust width as needed */
+  position: relative;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.containerMeal input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: relative;
+  height: 23px;
+  width: 23px;
+  background-color: #eee;
+  border-radius: 50%;
+  margin-left:auto; /* Space between text and radio button */
+}
+
+/* On mouse-over, add a grey background color */
+.containerMeal:hover input ~ .checkmark {
+  background-color: orange;
+}
+
+/* When the radio button is checked, add a blue background */
+.containerMeal input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.containerMeal input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.containerMeal .checkmark:after {
+  top: 8px;
+  left: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}  
+
+#roti-container 
+        {
+            display: none; /* Initially hidden */
+            text-align: center;
+            margin-top: 20px;
+        }
+          /* Flexbox to align items in one row */
+        .switch 
+        {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px; /* Increased spacing for better layout */
+            padding: 5px;
+            flex-wrap: wrap; /* Allows items to move to the next line */
+        }
+
+
+        /* Hide default radio buttons */
+        input[type="radio"] {
+            display: none;
+            
+        }
+
+        /* Custom radio button appearance */
+        .switch__label {
+            display: inline-block;
+            border: 2px solid #000;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        @media (max-width: 480px) {
+    .switch__label {
+        width: 15px; /* Smaller button width */
+        height: 15px; /* Smaller button height */
+        font-size: 14px; /* Smaller text */
+    }
+}
+
+
+        /* Highlight when selected */
+        input[type="radio"]:checked + .switch__label {
+            background: linear-gradient(49deg, #ff9933, #ffdd44);
+        }
+
+    .order-type {
+        text-align: center;
+        width: 100%;
+        margin: 0 auto; /* Centers the element horizontally */
+    }
+    
+    
+    .wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paymentd-btn {
+  min-width: 80%;
+  max-width: 400px;
+  min-height: 10px;
+  display: inline-flex;
+  font-family: 'Nunito', sans-serif;
+  font-size: 22px;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 1.3px;
+  font-weight: 700;
+  color: #313133;
+  background: #4fd14f;
+  background: linear-gradient(90deg, rgba(129,230,217,1) 0%, rgba(79,209,197,1) 100%);
+  border: none;
+  border-radius: 700px;
+  box-shadow: 12px 12px 24px rgba(79,209,197,.64);
+  transition: all 0.3s ease-in-out 0s;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  padding: 10px;
+  }
+    
+    .paymentd-btn::before 
+    {
+        content: '';
+        border-radius: 550px;
+        min-width: 105%;
+        max-width:500px;
+        min-height: 60px;
+        border: 6px solid #00FFCB;
+        box-shadow: 0 0 60px rgba(0,255,203,.64);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: all .3s ease-in-out 0s;
+    }
+
+.paymentd-btn:hover, 
+.paymentd-btn:focus {
+  color: #313133;
+  transform: translateY(-6px);
+}
+
+.paymentd-btn:hover::before, 
+.paymentd-btn:focus::before {
+  opacity: 1;
+}
+
+.paymentd-btn::after {
+  content: '';
+  width: 30px; height: 30px;
+  border-radius: 100%;
+  border: 6px solid #00FFCB;
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: ring 1.5s infinite;
+}
+
+.paymentd-btn:hover::after, 
+.paymentd-btn:focus::after {
+  animation: none;
+  display: none;
+}
+
+@media (max-width: 480px) {
+    .paymentd-btn {
+        font-size: 18px;  /* Reduce text size */
+        padding: 8px;     /* Reduce padding */
+    }
+}
+
+
+@keyframes ring {
+  0% {
+    width: 120px;
+    height: 50px;
+    opacity: 1;
+  }
+  100% {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+       
+        <img src="https://www.webindiainc.com/wp-content/uploads/2025/02/Asset-7.png" width="100%" height="100%">
+
+        <br><br><br>
+        
+
+
+        <!-- Meal Plan PDF Button -->
+
+
+        <button class="meal-btn" onclick="openPopup('https://drive.google.com/thumbnail?id=1tL7G_s9MH-MABwRr2exKGZ7vSUs5qLv0&sz=w800')">Here is Our Meal Plan</button>
+        <br>
+        <button class="menu-btn" onclick="openPopup('https://i.ibb.co/BVskDF1H/Cafe-Menu.webp')">View Our Menu for Lunch & Dinner</button>
+
+
+
+        <!-- Popup Container -->
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">
+            <button class="close-btn" onclick="closePopup()">✖</button>
+            <img id="popup-img" src="" alt="Meal Plan">
+        </div>
+    </div>
+        <br><br><br>
+        
+
+
+
+
+        <!-- Buttons for Lunch and Dinner -->
+
+
+
+        <div class="btn-container">
+            <button class="btn btn-lunch" onclick="checkLunchTime()">LUNLUNLUNCH<span>Order before 11:30 AM</span></button>
+            <button class="btn btn-dinner" onclick="checkDinnerTime()">DINNERD <span>Order before 05:30 PM</span></button>
+        </div>
+        <br>
+        
+
+
+        <!-- Lunch Menu -->
+
+
+
+        <div id="lunch-menu" class="menu-options">
+            <h2 style="text-align: left">Order Lunch</h2>
+        <div class="order-type-box">
+           
+           <div class="hover-underline">
+                <h3 style="margin-left: 10px; font-size: 20px; font-weight: bold; color: #333; text-align: left;">Name</h3>
+            </div>
+
+            <input type="text" id="name-input-lunch" placeholder = " Enter your name" required>
+        </div>    
+            
+            
+        <div class="order-type-box">
+            <div class="hover-underline2">
+                <h4 class="order-type" style="margin-left: 10px; font-size: 20px; font-weight: bold; color: #333; text-align: left;">Order Type</h4>
+                <br>
+            </div>    
+
+            <label class="containerR">One-Time Booking
+              <input type="radio" name="radio1" value="One-Time Booking" checked>
+              <span class="checkmark"></span>
+            </label>
+            
+            <label class="containerR">Weekly Subscription
+              <input type="radio" name="radio1" value="Weekly Subscription">
+              <span class="checkmark"></span>
+            </label>
+            
+            <label class="containerR">Monthly Subscription
+              <input type="radio" name="radio1" value="Monthly Subscription">
+              <span class="checkmark"></span>
+            </label>
+        </div>
+        
+        
+
+            <!-- The Popup Box -->
+                <div id="popup-box-lunch" class="popup-box">
+                    <div class="popup-content">
+                        <span id="close-btn-lunch" class="close-btn">&times;</span>
+                        <p id="popup-message-lunch">This is a popup message</p>
+                    </div>
+                </div>
+        
+
+
+        <div class="order-type-box">
+            
+            <DIV>
+               <h3 style="margin-left: 10px; font-size: 20px; font-weight: bold; color: #333; text-align: left;">Date</h3>
+                <input type="date" id="lunch-date" style="font-size: 16px;">
+         </div>       
+                
+
+                
+                <div id="lunch-order-end-date-container" style="display: none;">
+                    <h3 for="lunch-order-end-date" style="margin-left: 10px; font-size: 20px; font-weight: bold; color: #333; text-align: left;">End Date</h3>
+                    <input type="date" id="lunch-order-end-date" style="font-size: 16px;" readonly>
+                </div>
+                   
+            </div>
+        
+            
+        <div class="order-type-box">
+            
+           
+            <h4 class="order-type" style="margin-left: 10px; font-size: 20px; font-weight: bold; color: #333; text-align: left;">Meal Type</h4>
+            <br>
+
+            <label class="containerMeal">Full Lunch (₹100)
+                <input type="radio" name="radio2" id="roti-full-lunch" value="100" checked>
+                <span class="checkmark"></span>
+            </label>
+            
+            
+            
+            <label class="containerMeal">Half Lunch (₹70) - Sabji Roti
+                <input type="radio" name="radio2" id="roti-half-lunch" value="70">
+                <span class="checkmark"></span>
+            </label>
+            
+            <label class="containerMeal">Half Lunch (₹70) - Dal Rice
+                <input type="radio" name="radio2" id="dal-rice" value="70">
+                <span class="checkmark"></span>
+            </label>
+            
+            
+            <label class="containerMeal">Swaminarayan Lunch (₹100)
+                <input type="radio" name="radio2" id="roti-swaminarayan" value="100">
+                <span class="checkmark"></span>
+            </label>
+            
+            <label class="containerMeal">Lunch + Dinner (₹200)
+                <input type="radio" name="radio2" id="roti-lunch-dinner" value="200" >
+                <span class="checkmark"></span>
+            </label>
+            
+            <label class="containerMeal">Butter Milk (₹10)
+                <input type="radio" name="radio2" id="bmilk" value="10">
+                <span class="checkmark"></span>
+            </label>
+        </div>      
+                   
+                        
+       
+            <div id="roti-container" >
+                <div class="order-type-box">
+                    <h4 style="margin-left: 10px;">Quantity of Roti</h4>
+                    
+                    <div class="switch">
+                        
+                        <div>
+                            <input name="switch" id="one" type="radio" checked />
+                            <label for="one" class="switch__label">1</label>
+                        </div>
+                        <div>
+                            <input name="switch" id="two" type="radio" />
+                            <label for="two" class="switch__label">2</label>
+                        </div>
+                        <div>
+                            <input name="switch" id="three" type="radio" />
+                            <label for="three" class="switch__label">3</label>
+                        </div>
+                        <div>
+                            <input name="switch" id="four" type="radio" />
+                            <label for="four" class="switch__label">4</label>
+                        </div>
+                        <div>
+                            <input name="switch" id="five" type="radio" />
+                            <label for="five" class="switch__label">5</label>
+                        </div>
+                    </div>
+                </div>        
+            </div>
+            
+           
+        <br>
+        
+            
+           <!-- Proceed to Payment Button -->
+        
+            <div class="button-container">
+                <button id="proceed-payment-btn-lunch" style="margin-left: 10px;">Proceed To Pay >>></button>
+            </div>
+            <br>
+            <br>
+            <div id="upi-container-lunch" class="upi-container" style="display: none;">
+                    <br>
+                 <div  class="wrap">
+                    <button class="paymentd-btn" id="payment-button"> Click Here To Pay</button>
+                </div>   
+                <br>
+                
+                <div>
+                    <span id="upi-text-lunch" style="margin-left: 10px; color: red; font-size: 18px;">8141154868@ptsbi</span>
+                    <button onclick="copyUPI('upi-text-lunch', 'copy-message-lunch')" style="cursor:pointer">📋</button>
+                    
+                    <span id="copy-message-lunch" style="color: red; display: none; margin-left: 10px;">Copied</span>
+                
+                    <h3 >Name</h3>
+                        <label >Reference ID number</label>
+                        <input type="text" id="reference-id" placeholder="Enter last four digits of Reference Number" required maxlength="4" pattern="\d{4}" title="Only 4 digits are allowed.">
+                </div>
+                    <br>
+                    
+                    
+                    
+                    <button class="cool-button" id="order-button" onclick="placeOrder()">Submit Order</button>
+
+            </div>
+
+        </div>
+        
+
+        
+        
+                    <!-- Dinner Menu -->
+
+
+
+
+        <div id="dinner-menu" class="menu-options">
+            
+           <h2 style="text-align: left">Order Dinner</h2>
+
+            
+        <div class="order-type-box">
+           
+            <div class="hover-underline">
+               <h3 style="margin-left: 10px; font-size: 20px; font-weight: bold; color: #333; text-align: left;">Name</h3>
+            </div>
+    
+            <input type="text" id="name-input-dinner" placeholder="Enter your name" required>
+            
+        </div> 
+
+            
+             <!-- The Popup Box -->
+                <div id="popup-box-dinner" class="popup-box">
+                    <div class="popup-content">
+                        <span id="close-btn-dinner" class="close-btn">&times;</span>
+                        <p id="popup-message-dinner">This is a popup message</p>
+                    </div>
+                </div>
+
+        
+           
+       
+            
+        <div class="order-type-box">
+            <div class="hover-underline2">
+                <h4 class="order-type" style="margin-left: 10px; font-size: 20px; font-weight: bold; color: #333; text-align: left;">Order Type</h4>
+                <br>
+            </div>    
+
+            <label class="containerR">One-Time Booking
+              <input type="radio" name="radio3" value="One-Time Booking" checked>
+              <span class="checkmark"></span>
+            </label>
+            
+            <label class="containerR">Weekly Subscription
+              <input type="radio" name="radio3" value="Weekly Subscription">
+              <span class="checkmark"></span>
+            </label>
+            
+            <label class="containerR">Monthly Subscription
+              <input type="radio" name="radio3" value="Monthly Subscription">
+              <span class="checkmark"></span>
+            </label>
+        </div>    
+            
+            
+            <div class="order-type-box">
+               
+                <div>
+                    <h3 style="margin-left: 10px; font-size: 20px; font-weight: bold; color: #333; text-align: left;">Date</h3>
+                    <input type="date" id="dinner-date" style="font-size: 16px;">
+                </div>
+
+
+                <div id="dinner-order-end-date-container" style="display: none;">
+                    <h3 for="dinner-order-end-date" style="margin-left: 10px; font-size: 20px; font-weight: bold; color: #333; text-align: left;">End Date</h3>
+                    <input type="date" id="dinner-order-end-date" style="font-size: 16px;" readonly>
+                </div>
+                   
+            </div>
+
+
+            
+            <!-- Dinner Proceed Button -->
+
+
+
+            <div class="button-container">
+                <button id="proceed-payment-btn-dinner"  style="margin-left: 10px;">Proceed To Pay</button>
+            </div>
+            <br>
+            <div id="upi-container-dinner" class="upi-container" style="display: none;">
+                <br>
+
+
+                <div  class="wrap">
+                    <button class="paymentd-btn" id="payment-button-dinner">  Click Here To Pay</button>
+                </div> 
+
+
+
+                <br>
+                
+                <span id="upi-text-dinner" style="margin-left: 10px; color:red">8141154868@ptsbi</span>
+                <button onclick="copyUPI('upi-text-dinner', 'copy-message-dinner')" style="cursor:pointer">📋</button>
+                
+                <span id="copy-message-dinner" style="color: red; display: none; margin-left: 10px;">Copied</span>
+                
+                
+                
+                    <label>Reference ID number</label>
+                    <input type="text" id="reference-id-dinner" placeholder="Enter last four digits of Reference Number" required maxlength="4" pattern="\d{4}" title="Only 4 digits are allowed.">
+                    <br>
+                <br>
+                
+                <button class="cool-button" id="order-button-dinner" onclick="placeOrder1()">Submit Order</button>
+
+            </div>
+
+        </div>
+   
+    
+        
+
+
+
+
+    <script>
+
+
+
+
+
+
+
+
+
+
+
+const holidays = {
+    "2025-01-14": "Uttarayan",
+    "2025-01-15": "Uttarayan",
+    "2025-02-26": "Maha Shivaratri",
+    "2025-03-14": "Holi",
+    "2025-06-27": "Rath Yatra",
+    "2025-08-09": "Raksha Bandhan",
+    "2025-08-15": "Independence Day",
+    "2025-08-16": "Janmashtami",
+    "2025-10-02": "Dussehra",
+    "2025-10-20": "Diwali",
+    "2025-10-22": "Diwali New Year",
+    "2025-12-25": "Christmas Day"
+};
+
+// Calculate working days excluding weekends and holidays
+function calculateWorkingDays(startDate, endDate, isOneTime) {
+    if (isOneTime) return 1; // For one-time booking, always return 1 day
+    
+    const startUTC = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+    const endUTC = Date.UTC(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+    
+    let count = 0;
+    let curDate = new Date(startUTC);
+    
+    while (curDate <= endDate) {
+        const dayOfWeek = curDate.getDay();
+        const dateString = curDate.toISOString().split('T')[0];
+        
+        if (dayOfWeek !== 0 && dayOfWeek !== 6 && !holidays[dateString]) {
+            count++;
+        }
+        curDate.setDate(curDate.getDate() + 1);
+    }
+    return count;
+}
+
+// Update the payment amount based on meal type and subscription
+function updatePaymentAmount(mealType) {
+    const startDateInput = document.getElementById(mealType + '-date');
+    const endDateInput = document.getElementById(mealType + '-order-end-date');
+    
+    if (!startDateInput) return;
+    
+    const startDate = new Date(startDateInput.value);
+    
+    const isOneTime = document.querySelector('input[name="' + (mealType === 'lunch' ? 'radio1' : 'radio3') + '"]:checked').value === 'One-Time Booking';
+    
+    const endDate = isOneTime ? startDate : new Date(endDateInput.value);
+    
+    if (!startDateInput.value) {
+        document.getElementById('proceed-payment-btn-' + mealType).textContent = `Select Date`;
+        return;
+    }
+    
+    if (isNaN(startDate)) {
+        document.getElementById('proceed-payment-btn-' + mealType).textContent = `Invalid Date`;
+        return;
+    }
+    
+    if (!isOneTime && (!endDateInput.value || isNaN(endDate))) {
+        document.getElementById('proceed-payment-btn-' + mealType).textContent = `Select End Date`;
+        return;
+    }
+    
+    const mealPrice = mealType === 'dinner' ? 100 : parseFloat(document.querySelector('input[name="radio2"]:checked').value);
+    
+    const workingDays = calculateWorkingDays(startDate, endDate, isOneTime);
+    const totalAmount = workingDays * mealPrice;
+    
+    document.getElementById('proceed-payment-btn-' + mealType).textContent = `Proceed To Pay ₹${totalAmount.toFixed(2)}`;
+}
+
+// Event listener for changes in meal selection and dates
+document.addEventListener('change', function(event) {
+    const target = event.target;
+    
+    if (target.id === 'lunch-date' || target.id === 'lunch-order-end-date') {
+        updatePaymentAmount('lunch');
+    }
+    else if (target.id === 'dinner-date' || target.id === 'dinner-order-end-date') {
+        updatePaymentAmount('dinner');
+    }
+    
+    if (target.name === 'radio1' || target.name === 'radio3') {
+        const mealType = target.name === 'radio1' ? 'lunch' : 'dinner';
+        updatePaymentAmount(mealType);
+        
+        const endDateInput = document.getElementById(mealType + '-order-end-date');
+        if (endDateInput) {
+            endDateInput.style.display = target.value === 'One-Time Booking' ? 'none' : 'block';
+        }
+    }
+    
+    if (target.name === 'radio2') {
+        updatePaymentAmount('lunch');
+    }
+});
+
+// Initial update calls
+updatePaymentAmount('lunch');
+updatePaymentAmount('dinner');
+
+
+
+
+
+
+
+
+
+
+    
+        
+
+//////////---------IMAGE POPU AND CLOSE ------??/////////////////
+
+
+    function openPopup(imageSrc) {
+    let img = document.getElementById("popup-img");
+    img.src = imageSrc;
+    document.getElementById("popup").style.display = "flex";
+    document.body.classList.add("modal-open"); // Disable background scrolling
+}
+
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+    let img = document.getElementById("popup-img");
+    img.src = ""; // Reset image
+    document.body.classList.remove("modal-open"); // Enable scrolling again
+}
+
+// Close when clicking outside the image
+document.getElementById("popup").addEventListener("click", function(event) {
+    if (event.target === this) {
+        closePopup();
+    }
+});
+
+
+//////////-------------LUNCH HOLIDAYS------------------///////////////////
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const holidayDates = {
+        "2025-01-14": "Uttarayan",
+        "2025-01-15": "Uttarayan",
+        "2025-02-26": "Maha Shivaratri",
+        "2025-03-14": "Holi",
+        "2025-06-27": "Rath Yatra",
+        "2025-08-09": "Raksha Bandhan",
+        "2025-08-15": "Independence Day",
+        "2025-08-16": "Janmashtami",
+        "2025-10-02": "Dussehra",
+        "2025-10-20": "Diwali",
+        "2025-10-22": "Diwali New Year",
+        "2025-12-25": "Christmas Day"
+    };
+
+    function setTodayDate(dateInput) {
+        let today = new Date();
+        let formattedDate = today.toISOString().split('T')[0];
+        dateInput.value = formattedDate;
+        dateInput.setAttribute("value", formattedDate);
+    }
+
+    function disableRestrictedDates(event, popupId) {
+        let selectedDate = event.target.value;
+        let selectedDay = new Date(selectedDate).getDay();
+
+        if (selectedDay === 0 || selectedDay === 6) {
+            showPopup("Weekend mode: ON. Orders mode: OFF. See you on Monday! 😎", popupId);
+            event.target.value = "";
+            return;
+        }
+
+        if (holidayDates[selectedDate]) {
+            showPopup(`It's ${holidayDates[selectedDate]}! No orders today - time to relax and celebrate! 🎉`, popupId);
+            event.target.value = "";
+            return;
+        }
+
+        document.getElementById(popupId).style.display = "none";
+    }
+
+    function showPopup(message, popupId) {
+        const popupBox = document.getElementById(popupId);
+        const popupMessage = popupBox.querySelector("p");
+        popupMessage.textContent = message;
+        popupBox.style.display = "flex";
+
+        const closeBtnId = popupId.replace("popup-box", "close-btn");
+        document.getElementById(closeBtnId).addEventListener("click", function () {
+            popupBox.style.display = "none";
+        });
+    }
+
+    // --- Lunch Section ---
+    const lunchDateInput = document.getElementById("lunch-date");
+    const nameInputLunch = document.getElementById("name-input-lunch");
+    const proceedPaymentBtnLunch = document.getElementById("proceed-payment-btn-lunch");
+    const popupBoxLunch = document.getElementById("popup-box-lunch");
+
+    setTodayDate(lunchDateInput);
+    lunchDateInput.addEventListener("change", (event) => disableRestrictedDates(event, "popup-box-lunch"));
+
+    proceedPaymentBtnLunch.addEventListener("click", function (event) {
+        const selectedDate = lunchDateInput.value;
+        const name = nameInputLunch.value.trim();
+
+        if (name === "") {
+            showPopup("🚨 Oops! Name field is missing!! 🔹 Add your name so we can move ahead!", "popup-box-lunch");
+            event.preventDefault();
+            return;
+        }
+
+        const today = new Date();
+        const selectedDateObj = new Date(selectedDate);
+
+        if (selectedDateObj.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
+            showPopup("❌ Invalid Date! Choose today or later.", "popup-box-lunch");
+            event.preventDefault();
+            return;
+        }
+
+        if (selectedDateObj.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
+            const currentTime = new Date();
+            const cutoffTime = new Date();
+            cutoffTime.setHours(11, 30, 0, 0); // 11:30 AM cutoff for lunch
+
+            if (currentTime > cutoffTime) {
+                showPopup("⏳ Too Late! Lunch orders are closed.", "popup-box-lunch");
+                event.preventDefault();
+                return;
+            }
+        }
+
+        const selectedDay = new Date(selectedDate).getDay();
+        if (selectedDay === 0 || selectedDay === 6) {
+            showPopup("Weekend mode: ON. Orders mode: OFF. See you on Monday! 😎", "popup-box-lunch");
+            event.preventDefault();
+            return;
+
+
+
+
+
+        }
+
+        if (holidayDates[selectedDate]) {
+            showPopup(`It's ${holidayDates[selectedDate]}! No orders today - time to relax and celebrate! 🎉`, "popup-box-lunch");
+            event.preventDefault();
+            return;
+        }
+
+        document.getElementById("upi-container-lunch").style.display = "block";
+        document.getElementById("upi-container-dinner").style.display = "none";
+        popupBoxLunch.style.display = "none";
+    });
+
+});
+
+
+
+
+
+////////-------------DINNER HOLIDAYS--------------////////////////////////////////////////////
+
+        
+        
+document.addEventListener("DOMContentLoaded", function () {
+    const dinnerDateInput = document.getElementById("dinner-date");
+    const dinnerEndDateInput = document.getElementById("dinner-order-end-date");
+    const endDateContainer = document.getElementById("dinner-order-end-date-container");
+    const nameInput = document.getElementById("name-input-dinner");
+    const proceedPaymentBtn = document.getElementById("proceed-payment-btn-dinner");
+    const popupBoxDinner = document.getElementById("popup-box-dinner");
+    const popupMessageDinner = document.getElementById("popup-message-dinner");
+
+    const holidayDates = {
+        "2025-01-14": "Uttarayan",
+        "2025-01-15": "Uttarayan",
+        "2025-02-26": "Maha Shivaratri",
+        "2025-03-14": "Holi",
+        "2025-06-27": "Rath Yatra",
+        "2025-08-09": "Raksha Bandhan",
+        "2025-08-15": "Independence Day",
+        "2025-08-16": "Janmashtami",
+        "2025-10-02": "Dussehra",
+        "2025-10-20": "Diwali",
+        "2025-10-22": "Diwali New Year",
+        "2025-12-25": "Christmas Day"
+    };
+
+    function setTodayDate() {
+        let today = new Date();
+        let formattedDate = today.toISOString().split('T')[0];
+
+        if (dinnerDateInput) {
+            dinnerDateInput.value = formattedDate;
+            dinnerDateInput.setAttribute("value", formattedDate);
+        }
+    }
+
+    function disableRestrictedDates(event) {
+        let selectedDate = event.target.value;
+        let selectedDay = new Date(selectedDate).getDay();
+
+        if (selectedDay === 0 || selectedDay === 6) {
+            showPopup("Weekend mode: ON. Orders mode: OFF. See you on Monday! 😎", "popup-box-dinner");
+            event.target.value = "";
+            return;
+        }
+
+        if (holidayDates[selectedDate]) {
+            showPopup(`It's ${holidayDates[selectedDate]}! No orders today - time to relax and celebrate! 🎉`, "popup-box-dinner");
+            event.target.value = "";
+            return;
+        }
+
+        document.getElementById("popup-box-dinner").style.display = "none";
+
+        let selectedRadio = document.querySelector('input[name="radio3"]:checked');
+        if (!selectedRadio) return;
+
+        if (selectedRadio.value === "Weekly Subscription") {
+            calculateWeeklyEndDate(dinnerDateInput, dinnerEndDateInput); // Define this function if used
+        } else if (selectedRadio.value === "Monthly Subscription") {
+            calculateEndDate(dinnerDateInput, dinnerEndDateInput);      // Define this function if used
+        }
+    }
+
+    function showPopup(message, popupId) {
+        const popupBox = document.getElementById(popupId);
+        const popupMessage = popupBox.querySelector("p");
+
+        popupMessage.textContent = message;
+        popupBox.style.display = "flex";
+
+        document.getElementById("close-btn-dinner").addEventListener("click", function () {
+            popupBox.style.display = "none";
+        });
+    }
+
+    endDateContainer.style.display = "none";
+    setTodayDate();
+    dinnerDateInput.addEventListener("change", disableRestrictedDates);
+
+    proceedPaymentBtn.addEventListener("click", function (event) {
+        const selectedDate = document.getElementById("dinner-date").value;
+        const name = nameInput.value.trim();
+
+        if (name === "") {
+            showPopup("🚨 Oops! Name field is missing!! 🔹 Add your name so we can move ahead!", "popup-box-dinner");
+            event.preventDefault();
+            return;
+        }
+
+        const today = new Date();
+        const selectedDateObj = new Date(selectedDate);
+
+        if (selectedDateObj.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
+            showPopup("❌ Invalid Date! Choose today or later.", "popup-box-dinner");
+            event.preventDefault();
+            return;
+        }
+
+        if (selectedDateObj.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
+            const currentTime = new Date();
+            const cutoffTime = new Date();
+            cutoffTime.setHours(17, 30, 0, 0); // 5:30 PM
+
+            if (currentTime > cutoffTime) {
+                showPopup("⏳ Too Late! Dinner orders are closed.", "popup-box-dinner");
+                event.preventDefault();
+                return;
+            }
+        }
+
+        let selectedDay = new Date(selectedDate).getDay();
+        if (selectedDay === 0 || selectedDay === 6) {
+            showPopup("Weekend mode: ON. Orders mode: OFF. See you on Monday! 😎", "popup-box-dinner");
+            event.preventDefault();
+            return;
+        }
+
+        if (holidayDates[selectedDate]) {
+            showPopup(`It's ${holidayDates[selectedDate]}! No orders today - time to relax and celebrate! 🎉`, "popup-box-dinner");
+            event.preventDefault();
+            return;
+        }
+
+        document.getElementById("upi-container-dinner").style.display = "block";
+        document.getElementById("upi-container-lunch").style.display = "none";
+        popupBoxDinner.style.display = "none";
+    });
+});
+
+
+
+
+
+
+
+/////////////////------------------- LUNCH DATE-----------------------///////////////////////////////
+
+
+// Listen for radio button changes (Weekly or Monthly Subscription)
+document.addEventListener("DOMContentLoaded", function () {
+    const lunchDateInput = document.getElementById("lunch-date");
+    const lunchEndDateInput = document.getElementById("lunch-order-end-date");
+    const endDateContainer = document.getElementById("lunch-order-end-date-container");
+
+    // Function to set today's date
+    function setTodayDate() {
+        let today = new Date().toISOString().split('T')[0];
+        if (lunchDateInput) lunchDateInput.value = today;
+    }
+
+////////////Function to calculate the upcoming Friday
+
+
+    function calculateWeeklyEndDate(startDateInput, endDateInput) {
+        if (!startDateInput || !endDateInput) return;
+
+        let startDate = new Date(startDateInput.value);
+        if (isNaN(startDate)) return;
+
+        let dayOfWeek = startDate.getDay(); // 0 = Sunday, 6 = Saturday
+        let weeklyEndDate = new Date(startDate);
+
+        if (dayOfWeek >= 6) { 
+            // If selected day is Saturday (6) or Sunday (0), move to next week's Friday
+            let daysUntilNextFriday = (12 - dayOfWeek) % 7;
+            weeklyEndDate.setDate(weeklyEndDate.getDate() + daysUntilNextFriday);
+        } else {
+            // If it's Monday (1) to Friday (5), move to this week's Friday
+            let daysUntilFriday = 5 - dayOfWeek;
+            weeklyEndDate.setDate(weeklyEndDate.getDate() + daysUntilFriday);
+        }
+
+        // Format and update the end date field
+        endDateInput.value = weeklyEndDate.toISOString().split('T')[0];
+        endDateContainer.style.display = "block"; // Show End Date
+    }
+
+////////// Function to calculate the last day of the month for Monthly Subscription/////
+
+function calculateEndDate(startDateInput, endDateInput) {
+    if (!startDateInput || !endDateInput) return;
+
+    let startDate = new Date(startDateInput.value);
+    if (isNaN(startDate)) return;
+
+    let lastDay = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1); // Get last day of the month
+
+    endDateInput.value = lastDay.toISOString().split('T')[0];
+
+    document.getElementById("lunch-order-end-date-container").style.display = "block"; // Show End Date
+}
+
+
+    // Hide end date on page load because "One-Time Order" is selected by default
+    endDateContainer.style.display = "none";
+
+    // Set today's date on page load
+    setTodayDate();
+
+    // Update end date when the user selects a new date
+    lunchDateInput.addEventListener("change", function () {
+        let selectedRadio = document.querySelector('input[name="radio1"]:checked');
+        if (!selectedRadio) return;
+
+        if (selectedRadio.value === "Weekly Subscription") {
+            calculateWeeklyEndDate(lunchDateInput, lunchEndDateInput);
+        } else if (selectedRadio.value === "Monthly Subscription") {
+            calculateEndDate(lunchDateInput, lunchEndDateInput);
+        }
+    });
+
+    // Radio Button Logic: Show or Hide End Date Based on Selection
+    document.querySelectorAll('input[name="radio1"]').forEach(radio => {
+        radio.addEventListener('change', function (event) {
+            let orderType = event.target.value; // Get selected radio button value
+
+            if (orderType === "Monthly Subscription") { 
+                calculateEndDate(lunchDateInput, lunchEndDateInput); // Set last day of the month
+            } else if (orderType === "Weekly Subscription") { 
+                calculateWeeklyEndDate(lunchDateInput, lunchEndDateInput); // Set next Friday
+            } else {
+                endDateContainer.style.display = "none"; // Hide End Date for One-Time Order
+                lunchEndDateInput.value = ""; // Clear End Date
+            }
+        });
+    });
+});
+
+
+
+//////////////////////////----------------- DINNER DATE-------------------////////////////////////////////
+
+
+
+// Listen for radio button changes (Weekly or Monthly Subscription)
+document.addEventListener("DOMContentLoaded", function () {
+    const dinnerDateInput = document.getElementById("dinner-date");
+    const dinnerEndDateInput = document.getElementById("dinner-order-end-date");
+    const endDateContainer = document.getElementById("dinner-order-end-date-container");
+
+    // Function to set today's date
+    function setTodayDate() {
+        let today = new Date().toISOString().split('T')[0];
+        if (dinnerDateInput) dinnerDateInput.value = today;
+    }
+
+/////////////// Function to calculate the upcoming Friday
+
+    function calculateWeeklyEndDate(startDateInput, endDateInput) {
+        if (!startDateInput || !endDateInput) return;
+
+        let startDate = new Date(startDateInput.value);
+        if (isNaN(startDate)) return;
+
+        let dayOfWeek = startDate.getDay(); // 0 = Sunday, 6 = Saturday
+        let weeklyEndDate = new Date(startDate);
+
+        if (dayOfWeek >= 6) { 
+            // If selected day is Saturday (6) or Sunday (0), move to next week's Friday
+            let daysUntilNextFriday = (12 - dayOfWeek) % 7;
+            weeklyEndDate.setDate(weeklyEndDate.getDate() + daysUntilNextFriday);
+        } else {
+            // If it's Monday (1) to Friday (5), move to this week's Friday
+            let daysUntilFriday = 5 - dayOfWeek;
+            weeklyEndDate.setDate(weeklyEndDate.getDate() + daysUntilFriday);
+        }
+
+        // Format and update the end date field
+        endDateInput.value = weeklyEndDate.toISOString().split('T')[0];
+        endDateContainer.style.display = "block"; // Show End Date
+    }
+
+
+////////////////// Function to calculate the last day of the month for Monthly Subscription///
+
+
+function calculateEndDate(startDateInput, endDateInput) {
+    if (!startDateInput || !endDateInput) return;
+
+    let startDate = new Date(startDateInput.value);
+    if (isNaN(startDate)) return;
+
+    let lastDay = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1); // Get last day of the month
+
+    endDateInput.value = lastDay.toISOString().split('T')[0];
+
+    document.getElementById("dinner-order-end-date-container").style.display = "block"; // Show End Date
+}
+
+
+    // Hide end date on page load because "One-Time Order" is selected by default
+    endDateContainer.style.display = "none";
+
+    // Set today's date on page load
+    setTodayDate();
+
+    // Update end date when the user selects a new date
+    dinnerDateInput.addEventListener("change", function () {
+        let selectedRadio = document.querySelector('input[name="radio3"]:checked');
+        if (!selectedRadio) return;
+
+        if (selectedRadio.value === "Weekly Subscription") {
+            calculateWeeklyEndDate(dinnerDateInput, dinnerEndDateInput);
+        } else if (selectedRadio.value === "Monthly Subscription") {
+            calculateEndDate(dinnerDateInput, dinnerEndDateInput);
+        }
+    });
+
+    // Radio Button Logic: Show or Hide End Date Based on Selection
+    document.querySelectorAll('input[name="radio3"]').forEach(radio => {
+        radio.addEventListener('change', function (event) {
+            let orderType = event.target.value; // Get selected radio button value
+
+            if (orderType === "Monthly Subscription") { 
+                calculateEndDate(dinnerDateInput, dinnerEndDateInput); // Set last day of the month
+            } else if (orderType === "Weekly Subscription") { 
+                calculateWeeklyEndDate(dinnerDateInput, dinnerEndDateInput); // Set next Friday
+            } else {
+                endDateContainer.style.display = "none"; // Hide End Date for One-Time Order
+                dinnerEndDateInput.value = ""; // Clear End Date
+            }
+        });
+    });
+});
+
+
+
+
+
+
+//////// roti container/////////////////////////////////////////
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the radio buttons
+        const fullLunch = document.getElementById("roti-full-lunch");
+        const halfLunch = document.getElementById("roti-half-lunch");
+        const swaminarayanLunch = document.getElementById("roti-swaminarayan");
+        const lunchDinner = document.getElementById("roti-lunch-dinner");
+
+        // Other meal options
+        const dalRice = document.getElementById("dal-rice");
+        const buttermilk = document.getElementById("bmilk");
+
+        // Get the roti container
+        const rotiContainer = document.getElementById("roti-container");
+        if (fullLunch.checked) 
+        {
+            rotiContainer.style.display = "block";
+        }
+
+
+        // Function to toggle the roti container
+        function toggleRotiContainer() {
+            if (fullLunch.checked || halfLunch.checked || swaminarayanLunch.checked || lunchDinner.checked) {
+                rotiContainer.style.display = "block";
+            } else {
+                rotiContainer.style.display = "none";
+            }
+           
+            
+        }
+
+        // Add event listeners
+        fullLunch.addEventListener("change", toggleRotiContainer);
+        halfLunch.addEventListener("change", toggleRotiContainer);
+        swaminarayanLunch.addEventListener("change", toggleRotiContainer);
+        dalRice.addEventListener("change", toggleRotiContainer);
+        lunchDinner.addEventListener("change", toggleRotiContainer);
+        buttermilk.addEventListener("change", toggleRotiContainer);
+    });
+
+
+
+///////////////-------Togglee forr LUNCHHH and DINNNERRRR---------////////////////////////// 
+        
+        function checkLunchTime()
+        {
+            // let now = new Date();
+            // let hours = now.getHours();
+            // let minutes = now.getMinutes();
+            // let day = now.getDay();  // 1 = Monday, 5 = Friday
+           
+            let lunchMenu = document.getElementById('lunch-menu');
+            let dinnerMenu = document.getElementById('dinner-menu');
+
+            // Toggle lunch menu visibility
+             if (lunchMenu.style.display === "block") 
+                {
+                 lunchMenu.style.display = "none";
+                } 
+            else 
+                {
+                  lunchMenu.style.display = "block";
+                  dinnerMenu.style.display = "none";  // Hide dinner menu if open
+                }
+        }
+        
+        
+    
+
+        function checkDinnerTime() 
+        {
+            // let now = new Date();
+            // let hours = now.getHours();
+            // let minutes = now.getMinutes();
+            // let day = now.getDay();  // 0 = Saturday, 6 = Sunday
+            let lunchMenu = document.getElementById('lunch-menu');
+            let dinnerMenu = document.getElementById('dinner-menu');
+
+
+            // Toggle dinner menu visibility
+            if (dinnerMenu.style.display === "block") {
+                  dinnerMenu.style.display = "none";
+            } else {
+                dinnerMenu.style.display = "block";
+                lunchMenu.style.display = "none";  // Hide lunch menu if open
+            }
+        }
+                
+                
+                
+/////Its open Proceed to Pay button open in LUNCH & DINNER SECTION---------------
+
+
+        //         document.getElementById("proceed-payment-btn-lunch").addEventListener("click", function () {
+        //         document.getElementById("upi-container-lunch").style.display = "block";  // Show LUNCH container
+        //         document.getElementById("upi-container-dinner").style.display = "none";  // Hide DINNER container
+        // });
+
+        //     document.getElementById("proceed-payment-btn-dinner").addEventListener("click", function () {
+        //     document.getElementById("upi-container-dinner").style.display = "block"; // Show DINNER container
+        //     document.getElementById("upi-container-lunch").style.display = "none";  // Hide LUNCH container
+        // });
+
+
+
+        //////////////////////copyyyy upi iiddd//////////////////////////////
+        function copyUPI(upiId, messageId) {
+            var upiText = document.getElementById(upiId).textContent;
+            navigator.clipboard.writeText(upiText).then(function () {
+                var copyMessage = document.getElementById(messageId);
+                copyMessage.style.display = "inline";
+                setTimeout(function () {
+                    copyMessage.style.display = "none";
+                }, 1500);
+            });
+        }
+
+
+
+
+     //////////////////     payment 200,100,70           ////////////////////////////////////////////////
+
+
+
+    //  document.addEventListener("DOMContentLoaded", function () {
+    //         const paymentButton = document.getElementById("payment-button");
+    //         const proceedButton = document.getElementById("proceed-payment-btn-lunch");
+    //         const mealOptions = document.querySelectorAll('input[name="radio2"]');
+
+    //         // Function to update payment button price
+    //         function updatePaymentButton() {
+    //             const selectedMeal = document.querySelector('input[name="radio2"]:checked');
+    //             if (selectedMeal) {
+    //                 paymentButton.textContent = `Pay ₹${selectedMeal.value}`;
+    //             }
+    //         }
+
+    //         // Hide Pay button initially
+    //         paymentButton.style.display = "none";
+
+    //         // Listen for meal selection changes
+    //         mealOptions.forEach(option => {
+    //             option.addEventListener("change", updatePaymentButton);
+    //         });
+
+    //         // Show Pay button when "Proceed to Pay" is clicked
+    //         proceedButton.addEventListener("click", function () {
+    //             updatePaymentButton();
+    //             paymentButton.style.display = "block"; // Show button
+    //         });
+    //     });
+
+
+
+       
+        
+        document.querySelectorAll("select").forEach(select => 
+        {
+            if (select.previousElementSibling.innerText === "Order Type") 
+            {
+                select.addEventListener("change", toggleEndDateField);
+            }
+        });
+
+
+
+
+     
+// ------------------Function validationn ++++ order Placed
+          
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Function to validate input for Lunch and Dinner
+    function validateInput(inputId, popupMessageId) {
+        let input = document.getElementById(inputId);
+        let value = input.value;
+        let popupMessage = document.getElementById(popupMessageId);
+
+        if (value === "") {
+            popupMessage.textContent = "🛑 Can’t Proceed!! Enter the Correct last 4 digits of your Reference ID..";
+            showPopup(popupMessageId);
+            return false; // Prevent form submission
+        } 
+        else if (!/^\d{4}$/.test(value)) 
+        {
+            popupMessage.textContent = "❌ Invalid Input! Only 4 numeric allowed";
+            showPopup(popupMessageId);
+            return false; // Prevent form submission
+        } 
+        else 
+        {
+            return true; // Allow form submission
+        }
+    }
+
+    // Function to place order for Lunch
+    function placeOrder(buttonId, inputId, popupMessageId) {
+        if (validateInput(inputId, popupMessageId)) {
+            let orderButton = document.getElementById(buttonId);
+            orderButton.textContent = "Your order is placed";
+            orderButton.classList.add("clicked");
+            orderButton.disabled = true;
+
+            // Restore button text after 5 seconds
+            setTimeout(() => {
+                orderButton.textContent = "Submit Order"; // Reset text
+                orderButton.classList.remove("clicked"); // Remove CSS class
+                orderButton.disabled = false; // Re-enable button
+            }, 7000);
+        }
+    }
+
+    // Function to place order for Dinner
+    function placeOrder1() {
+        placeOrder("order-button-dinner", "reference-id-dinner", "popup-message-dinner");
+    }
+
+    // Function to show popup
+    function showPopup(popupMessageId) {
+        let popupBox = popupMessageId.includes("dinner") ? "popup-box-dinner" : "popup-box-lunch";
+        document.getElementById(popupBox).style.display = "flex"; // Ensure proper centering
+    }
+
+    // Function to close popup
+    function closePopup(popupBoxId) {
+        document.getElementById(popupBoxId).style.display = "none";
+    }
+
+    // Ensure close buttons work for both Lunch & Dinner popups
+    document.getElementById("close-btn-lunch").addEventListener("click", function () {
+        closePopup("popup-box-lunch");
+    });
+
+    document.getElementById("close-btn-dinner").addEventListener("click", function () {
+        closePopup("popup-box-dinner");
+    });
+
+    // Event listener for Lunch order button
+    document.getElementById("order-button").addEventListener("click", function () {
+        placeOrder("order-button", "reference-id", "popup-message-lunch");
+    });
+
+    // Event listener for Dinner order button
+    document.getElementById("order-button-dinner").addEventListener("click", function () {
+        placeOrder1();
+    });
+
+});
+
+
+
+
+//------------------------------------------------//Payment linnk----luncchhhhh
+
+   document.addEventListener("DOMContentLoaded", function () {
+
+    // ... (All other JavaScript code - holidayDates, functions, 
+    // event listeners for date inputs, radio buttons, 
+    // proceedPaymentBtn click handler - remains the same)
+
+    // Event listener for payment-button (existing button)
+    const paymentButton = document.getElementById("payment-button");
+    if (paymentButton) {
+        paymentButton.addEventListener("click", function () {
+            window.open("https://tinyurl.com/4jradwum", "_blank");
+        });
+    } else {
+        console.error("Payment button element with ID 'payment-button' not found!");
+    }
+
+    // Event listener for payment-button1 (new button)
+    const paymentButton1 = document.getElementById("payment-button1"); // Get the new button
+    if (paymentButton1) {
+        paymentButton1.addEventListener("click", function () {
+            // Add the code you want to execute when payment-button1 is clicked
+            // For example:
+            alert("Payment button 1 clicked!");  // Or any other action
+            // You can open a different URL, perform a different calculation, etc.
+            // window.open("https://www.example.com", "_blank"); // Example
+        });
+    } else {
+        console.error("Payment button element with ID 'payment-button1' not found!");
+    }
+
+});
+
+
+//-------------------------------//Payment linnk----dinnerr-----//////////////////
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ... (All other JavaScript code - holidayDates, functions, 
+    // event listeners for date inputs, radio buttons, 
+    // proceedPaymentBtn click handler - remains the same)
+
+    // Event listener for payment-button (existing button)
+    const paymentButtonDinner = document.getElementById("payment-button-dinner");
+    if (paymentButtonDinner) 
+    {
+        paymentButtonDinner.addEventListener("click", function () {
+            window.open("upi://pay?pa=9512039029.eazypay@icici&pn=Lunch%20Payment&am=${totalAmount}&cu=INR", "_blank");
+        });
+    } else {
+        console.error("Payment button element with ID 'payment-button' not found!");
+    }
+
+    // Event listener for payment-button2 (new button)
+    const paymentButton2 = document.getElementById("payment-button2"); // Get the new button
+    if (paymentButton2) 
+    {
+        paymentButton2.addEventListener("click", function () {
+            // Add the code you want to execute when payment-button1 is clicked
+            // For example:
+            alert("Payment button 1 clicked!");  // Or any other action
+            // You can open a different URL, perform a different calculation, etc.
+            // window.open("https://www.example.com", "_blank"); // Example
+        });
+    } else {
+        console.error("Payment button element with ID 'payment-button2' not found!");
+    }
+
+});
+
+
+
+
+
+
+// document.addEventListener("DOMContentLoaded", function () {
+
+// // ... (All other JavaScript code - holidayDates, functions, 
+// // event listeners for date inputs, radio buttons, 
+// // proceedPaymentBtn click handler - remains the same)
+
+// // Event listener for payment-button (existing button)
+// const paymentButtonDinner = document.getElementById("payment-button-dinner");
+// if (paymentButtonDinner) 
+// {
+//     paymentButtonDinner.addEventListener("click", function () {
+//         const totalAmount = this.textContent.match(/₹(\d+(\.\d{2})?)/)[1];
+//         window.open(`upi://pay?pa=9512039029.eazypay@icici&pn=Lunch%20Payment&am=${totalAmount}&cu=INR`, "_blank");
+//     });
+// } else {
+//     console.error("Payment button element with ID 'payment-button' not found!");
+// }
+
+// // Event listener for payment-button2 (new button)
+// const paymentButton2 = document.getElementById("payment-button2"); // Get the new button
+// if (paymentButton2) 
+// {
+//     paymentButton2.addEventListener("click", function () {
+//         const totalAmount = this.textContent.match(/₹(\d+(\.\d{2})?)/)[1];
+//         window.open(`upi://pay?pa=9512039029.eazypay@icici&pn=Lunch%20Payment&am=${totalAmount}&cu=INR`, "_blank");
+//     });
+// } else {
+//     console.error("Payment button element with ID 'payment-button2' not found!");
+// }
+
+// });
+
+
+        
+        window.onload = setTodayDate;
+    </script>
+</body>
+</html>
