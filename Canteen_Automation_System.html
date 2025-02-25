@@ -787,6 +787,28 @@ body.modal-open {
     opacity: 0;
   }
 }
+#qr-code,#qr-code-dinner {
+    display: none; /* Initially hidden */
+    margin-top: 20px;
+    width: 200px; /* Set a fixed width */
+    max-width: 100%; /* Ensure it does not overflow */
+}
+
+/* Centering for different screen sizes */
+@media screen and (max-width: 768px) {
+    #qr-code,#qr-code-dinner {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    #qr-code ,#qr-code-dinner {
+        margin-left: 120px; /* Maintain original margin on larger screens */
+    }
+}
+
 
 
 
@@ -993,15 +1015,16 @@ body.modal-open {
                
                     <div  class="wrap">
                         <button class="paymentd-btn" id="payment-button"> Click Here To Pay</button>
-                    </div>   
+                    </div> 
+                    <br>
+                    <div>
+                        <img id="qr-code" src="" alt="QR Code" width="200">
+                    </div>
                 <br>
+               
                 
            
-                <div style="text-align: center;">
-                    <span id="upi-text-lunch" style="color: red; font-size: 18px;">8141154868@ptsbi</span>
-                    <button onclick="copyUPI('upi-text-lunch', 'copy-message-lunch')" style="cursor: pointer; border: none; background: none; font-size: 18px;">📋</button>
-                    <span id="copy-message-lunch" style="color: red; display: none; margin-left: 10px;">Copied</span>
-                </div>
+               
 
 
                 <div class="order-type-box">
@@ -1104,7 +1127,11 @@ body.modal-open {
             <div class="button-container">
                 <button id="proceed-payment-btn-dinner"  style="margin-left: 10px;">Proceed To Pay</button>
             </div>
+            
             <br>
+                    
+                    
+            <br>        
             <div id="upi-container-dinner" class="upi-container" style="display: none;">
                 <br>
 
@@ -1112,6 +1139,10 @@ body.modal-open {
                 <div  class="wrap">
                     <button class="paymentd-btn" id="payment-button-dinner">  Click Here To Pay</button>
                 </div> 
+                <br>
+                <div>
+                        <img id="qr-code-dinner" src="" alt="QR Code" width="200">
+                    </div>
 
 
 
@@ -2015,112 +2046,135 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //------------------------------------------------//Payment linnk----luncchhhhh
 
-   document.addEventListener("DOMContentLoaded", function () {
+//   document.addEventListener("DOMContentLoaded", function () {
+//     let isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    
+//     // Function to handle UPI payment link
+//     function openUPIPayment(amount) {
+//         let upiLink = `upi://pay?pa=9512039029.eazypay@icici&pn=Lunch%20Payment&am=${amount.toFixed(2)}&cu=INR`;
+        
+//         if (isMobile) {
+//             window.location.href = upiLink;
+//         } else {
+//             let qrCode = document.getElementById("qr-code");
+//             if (qrCode) {
+//                 if (qrCode.style.display === "none") {
+//                     qrCode.src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(upiLink);
+//                     qrCode.style.display = "block";
+//                 } else {
+//                     qrCode.style.display = "none";
+//                 }
+//             } else {
+//                 console.error("QR code element with ID 'qr-code' not found!");
+//             }
+//         }
+//     }
+    
+//     // Event listener for payment-button (existing button)
+//     const paymentButton = document.getElementById("payment-button");
+//     if (paymentButton) {
+//         paymentButton.addEventListener("click", function () {
+//             let totalAmount = 100; // Replace with actual amount calculation
+//             openUPIPayment(totalAmount);
+//         });
+//     } else {
+//         console.error("Payment button element with ID 'payment-button' not found!");
+//     }
 
-    // ... (All other JavaScript code - holidayDates, functions, 
-    // event listeners for date inputs, radio buttons, 
-    // proceedPaymentBtn click handler - remains the same)
+//     // Event listener for payment-button1 (new button)
+//     const paymentButton1 = document.getElementById("payment-button1");
+//     if (paymentButton1) {
+//         paymentButton1.addEventListener("click", function () {
+//             alert("Payment button 1 clicked!");
+//             // You can add additional actions here
+//         });
+//     } else {
+//         console.error("Payment button element with ID 'payment-button1' not found!");
+//     }
 
-    // Event listener for payment-button (existing button)
-    const paymentButton = document.getElementById("payment-button");
-    if (paymentButton) {
-        paymentButton.addEventListener("click", function () {
-            window.open("upi://pay?pa=9512039029.eazypay@icici&pn=Lunch%20Payment&am=${totalAmount.toFixed(2)}&cu=INR", "_blank");
-        });
-    } else {
-        console.error("Payment button element with ID 'payment-button' not found!");
-    }
-
-    // Event listener for payment-button1 (new button)
-    const paymentButton1 = document.getElementById("payment-button1"); // Get the new button
-    if (paymentButton1) {
-        paymentButton1.addEventListener("click", function () {
-            // Add the code you want to execute when payment-button1 is clicked
-            // For example:
-            alert("Payment button 1 clicked!");  // Or any other action
-            // You can open a different URL, perform a different calculation, etc.
-            // window.open("https://www.example.com", "_blank"); // Example
-        });
-    } else {
-        console.error("Payment button element with ID 'payment-button1' not found!");
-    }
-
-});
+//     // Event listener for pay-button (extra payment button with UPI handling)
+//     const payButton = document.getElementById("pay-button");
+//     if (payButton) {
+//         payButton.addEventListener("click", function () {
+//             let totalAmount = 100; // Replace with actual amount calculation
+//             openUPIPayment(totalAmount);
+//         });
+//     } else {
+//         console.error("Payment button element with ID 'pay-button' not found!");
+//     }
+// });
 
 
 //-------------------------------//Payment linnk----dinnerr-----//////////////////
 
 
 document.addEventListener("DOMContentLoaded", function () {
-
-    // ... (All other JavaScript code - holidayDates, functions, 
-    // event listeners for date inputs, radio buttons, 
-    // proceedPaymentBtn click handler - remains the same)
-
-    // Event listener for payment-button (existing button)
-    const paymentButtonDinner = document.getElementById("payment-button-dinner");
-    if (paymentButtonDinner) 
-    {
-        paymentButtonDinner.addEventListener("click", function () {
-            window.open("upi://pay?pa=9512039029.eazypay@icici&pn=Lunch%20Payment&am=${totalAmount.toFixed(2)}&cu=INR", "_blank");
+    let isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    
+    // Function to handle UPI payment link
+    function toggleUPIPayment(amount, qrCodeId) {
+        let upiLink = `upi://pay?pa=9512039029.eazypay@icici&pn=Payment&am=${amount.toFixed(2)}&cu=INR`;
+        
+        if (isMobile) {
+            window.location.href = upiLink;
+        } else {
+            let qrCode = document.getElementById(qrCodeId);
+            if (qrCode) {
+                if (qrCode.style.display === "none" || qrCode.style.display === "") {
+                    qrCode.src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(upiLink);
+                    qrCode.style.display = "block";
+                } else {
+                    qrCode.style.display = "none";
+                }
+            } else {
+                console.error(`QR code element with ID '${qrCodeId}' not found!`);
+            }
+        }
+    }
+    
+    // Event listener for lunch payment
+    const paymentButton = document.getElementById("payment-button");
+    if (paymentButton) {
+        paymentButton.addEventListener("click", function () {
+            let totalAmount = 100; // Replace with actual amount calculation
+            toggleUPIPayment(totalAmount, "qr-code");
         });
     } else {
         console.error("Payment button element with ID 'payment-button' not found!");
     }
-
-    // Event listener for payment-button2 (new button)
-    const paymentButton2 = document.getElementById("payment-button2"); // Get the new button
-    if (paymentButton2) 
-    {
+    
+    // Event listener for dinner payment
+    const paymentButtonDinner = document.getElementById("payment-button-dinner");
+    if (paymentButtonDinner) {
+        paymentButtonDinner.addEventListener("click", function () {
+            let totalAmount = 150; // Replace with actual amount calculation
+            toggleUPIPayment(totalAmount, "qr-code-dinner");
+        });
+    } else {
+        console.error("Payment button element with ID 'payment-button-dinner' not found!");
+    }
+    
+    // Event listener for extra payment button
+    const payButton = document.getElementById("pay-button");
+    if (payButton) {
+        payButton.addEventListener("click", function () {
+            let totalAmount = 100; // Replace with actual amount calculation
+            toggleUPIPayment(totalAmount, "qr-code");
+        });
+    } else {
+        console.error("Payment button element with ID 'pay-button' not found!");
+    }
+    
+    // Event listener for additional button
+    const paymentButton2 = document.getElementById("payment-button2");
+    if (paymentButton2) {
         paymentButton2.addEventListener("click", function () {
-            // Add the code you want to execute when payment-button1 is clicked
-            // For example:
-            alert("Payment button 1 clicked!");  // Or any other action
-            // You can open a different URL, perform a different calculation, etc.
-            // window.open("https://www.example.com", "_blank"); // Example
+            alert("Payment button 1 clicked!"); // Modify as needed
         });
     } else {
         console.error("Payment button element with ID 'payment-button2' not found!");
     }
-
 });
-
-
-
-
-
-
-// document.addEventListener("DOMContentLoaded", function () {
-
-// // ... (All other JavaScript code - holidayDates, functions, 
-// // event listeners for date inputs, radio buttons, 
-// // proceedPaymentBtn click handler - remains the same)
-
-// // Event listener for payment-button (existing button)
-// const paymentButtonDinner = document.getElementById("payment-button-dinner");
-// if (paymentButtonDinner) 
-// {
-//     paymentButtonDinner.addEventListener("click", function () {
-//         const totalAmount = this.textContent.match(/₹(\d+(\.\d{2})?)/)[1];
-//         window.open(`upi://pay?pa=9512039029.eazypay@icici&pn=Lunch%20Payment&am=${totalAmount}&cu=INR`, "_blank");
-//     });
-// } else {
-//     console.error("Payment button element with ID 'payment-button' not found!");
-// }
-
-// // Event listener for payment-button2 (new button)
-// const paymentButton2 = document.getElementById("payment-button2"); // Get the new button
-// if (paymentButton2) 
-// {
-//     paymentButton2.addEventListener("click", function () {
-//         const totalAmount = this.textContent.match(/₹(\d+(\.\d{2})?)/)[1];
-//         window.open(`upi://pay?pa=9512039029.eazypay@icici&pn=Lunch%20Payment&am=${totalAmount}&cu=INR`, "_blank");
-//     });
-// } else {
-//     console.error("Payment button element with ID 'payment-button2' not found!");
-// }
-
-// });
 
 
         

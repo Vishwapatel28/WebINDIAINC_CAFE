@@ -1018,7 +1018,7 @@ body.modal-open {
                     </div> 
                     <br>
                     <div>
-                        <img id="qr-code" src="" alt="QR Code" width="200">
+                        <img id="qr-code" src="" alt="" width="200">
                     </div>
                 <br>
                
@@ -1240,7 +1240,7 @@ function updatePaymentAmount(mealType) {
     const endDate = isOneTime ? startDate : new Date(endDateInput.value);
     
     if (!startDateInput.value) {
-        document.getElementById('proceed-payment-btn-' + mealType).textContent = `Select Date`;
+        document.getElementById('proceed-payment-btn-' + mealType).textContent = `Proceed To Pay`;
         return;
     }
     
