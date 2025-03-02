@@ -1018,7 +1018,7 @@ body.modal-open {
                     </div> 
                     <br>
                     <div>
-                        <img id="qr-code" src="" alt="QR Code" width="200">
+                        <img id="qr-code" src="" alt="" width="200">
                     </div>
                 <br>
                
@@ -1240,7 +1240,7 @@ function updatePaymentAmount(mealType) {
     const endDate = isOneTime ? startDate : new Date(endDateInput.value);
     
     if (!startDateInput.value) {
-        document.getElementById('proceed-payment-btn-' + mealType).textContent = `Select Date`;
+        document.getElementById('proceed-payment-btn-' + mealType).textContent = `Proceed To Pay`;
         return;
     }
     
@@ -1960,149 +1960,69 @@ function calculateEndDate(startDateInput, endDateInput) {
 
 
      
-// ------------------Function validationn ++++ order Placed
+// ------------------Function validationn ++++ order Placed lunch & dinner
           
 document.addEventListener("DOMContentLoaded", function () {
-
-    // Function to validate input for Lunch and Dinner
+    
     function validateInput(inputId, popupMessageId) {
         let input = document.getElementById(inputId);
-        let value = input.value;
         let popupMessage = document.getElementById(popupMessageId);
+        let value = input.value.trim();
 
-        if (value === "") {
-            popupMessage.textContent = "🛑 Can’t Proceed!! Enter the Correct last 4 digits of your Reference ID..";
-            showPopup(popupMessageId);
-            return false; // Prevent form submission
+        if (!value) {
+            showPopup(popupMessageId, "🛑 Can’t Proceed!! Enter the Correct last 4 digits of your Reference ID..");
+            return false;
         } 
-        else if (!/^\d{4}$/.test(value)) 
-        {
-            popupMessage.textContent = "❌ Invalid Input! Only 4 numeric allowed";
-            showPopup(popupMessageId);
-            return false; // Prevent form submission
-        } 
-        else 
-        {
-            return true; // Allow form submission
+        if (!/^\d{4}$/.test(value)) {
+            showPopup(popupMessageId, "❌ Invalid Input! Only 4 numeric allowed");
+            return false;
         }
+        return true;
     }
 
-    // Function to place order for Lunch
     function placeOrder(buttonId, inputId, popupMessageId) {
-        if (validateInput(inputId, popupMessageId)) {
-            let orderButton = document.getElementById(buttonId);
-            orderButton.textContent = "Your order is placed";
-            orderButton.classList.add("clicked");
-            orderButton.disabled = true;
+        if (!validateInput(inputId, popupMessageId)) return;
+        
+        let orderButton = document.getElementById(buttonId);
+        orderButton.textContent = "Your order is placed";
+        orderButton.classList.add("clicked");
+        orderButton.disabled = true;
 
-            // Restore button text after 5 seconds
-            setTimeout(() => {
-                orderButton.textContent = "Submit Order"; // Reset text
-                orderButton.classList.remove("clicked"); // Remove CSS class
-                orderButton.disabled = false; // Re-enable button
-            }, 7000);
-        }
+        setTimeout(() => {
+            orderButton.textContent = "Submit Order";
+            orderButton.classList.remove("clicked");
+            orderButton.disabled = false;
+        }, 7000);
     }
 
-    // Function to place order for Dinner
-    function placeOrder1() {
-        placeOrder("order-button-dinner", "reference-id-dinner", "popup-message-dinner");
+    function showPopup(popupMessageId, message) {
+        let popupMessage = document.getElementById(popupMessageId);
+        let popupBoxId = popupMessageId.includes("dinner") ? "popup-box-dinner" : "popup-box-lunch";
+        
+        popupMessage.textContent = message;
+        document.getElementById(popupBoxId).style.display = "flex";
     }
 
-    // Function to show popup
-    function showPopup(popupMessageId) {
-        let popupBox = popupMessageId.includes("dinner") ? "popup-box-dinner" : "popup-box-lunch";
-        document.getElementById(popupBox).style.display = "flex"; // Ensure proper centering
-    }
-
-    // Function to close popup
     function closePopup(popupBoxId) {
         document.getElementById(popupBoxId).style.display = "none";
     }
 
-    // Ensure close buttons work for both Lunch & Dinner popups
-    document.getElementById("close-btn-lunch").addEventListener("click", function () {
-        closePopup("popup-box-lunch");
-    });
+    document.getElementById("close-btn-lunch").addEventListener("click", () => closePopup("popup-box-lunch"));
+    document.getElementById("close-btn-dinner").addEventListener("click", () => closePopup("popup-box-dinner"));
 
-    document.getElementById("close-btn-dinner").addEventListener("click", function () {
-        closePopup("popup-box-dinner");
-    });
-
-    // Event listener for Lunch order button
-    document.getElementById("order-button").addEventListener("click", function () {
-        placeOrder("order-button", "reference-id", "popup-message-lunch");
-    });
-
-    // Event listener for Dinner order button
-    document.getElementById("order-button-dinner").addEventListener("click", function () {
-        placeOrder1();
-    });
-
+    document.getElementById("order-button").addEventListener("click", () => 
+        placeOrder("order-button", "reference-id", "popup-message-lunch")
+    );
+    
+    document.getElementById("order-button-dinner").addEventListener("click", () => 
+        placeOrder("order-button-dinner", "reference-id-dinner", "popup-message-dinner")
+    );
 });
 
 
 
 
-//------------------------------------------------//Payment linnk----luncchhhhh
 
-//   document.addEventListener("DOMContentLoaded", function () {
-//     let isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    
-//     // Function to handle UPI payment link
-//     function openUPIPayment(amount) {
-//         let upiLink = `upi://pay?pa=9512039029.eazypay@icici&pn=Lunch%20Payment&am=${amount.toFixed(2)}&cu=INR`;
-        
-//         if (isMobile) {
-//             window.location.href = upiLink;
-//         } else {
-//             let qrCode = document.getElementById("qr-code");
-//             if (qrCode) {
-//                 if (qrCode.style.display === "none") {
-//                     qrCode.src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(upiLink);
-//                     qrCode.style.display = "block";
-//                 } else {
-//                     qrCode.style.display = "none";
-//                 }
-//             } else {
-//                 console.error("QR code element with ID 'qr-code' not found!");
-//             }
-//         }
-//     }
-    
-//     // Event listener for payment-button (existing button)
-//     const paymentButton = document.getElementById("payment-button");
-//     if (paymentButton) {
-//         paymentButton.addEventListener("click", function () {
-//             let totalAmount = 100; // Replace with actual amount calculation
-//             openUPIPayment(totalAmount);
-//         });
-//     } else {
-//         console.error("Payment button element with ID 'payment-button' not found!");
-//     }
-
-//     // Event listener for payment-button1 (new button)
-//     const paymentButton1 = document.getElementById("payment-button1");
-//     if (paymentButton1) {
-//         paymentButton1.addEventListener("click", function () {
-//             alert("Payment button 1 clicked!");
-//             // You can add additional actions here
-//         });
-//     } else {
-//         console.error("Payment button element with ID 'payment-button1' not found!");
-//     }
-
-//     // Event listener for pay-button (extra payment button with UPI handling)
-//     const payButton = document.getElementById("pay-button");
-//     if (payButton) {
-//         payButton.addEventListener("click", function () {
-//             let totalAmount = 100; // Replace with actual amount calculation
-//             openUPIPayment(totalAmount);
-//         });
-//     } else {
-//         console.error("Payment button element with ID 'pay-button' not found!");
-//     }
-// });
 
 
 //-------------------------------//Payment linnk----dinnerr-----//////////////////

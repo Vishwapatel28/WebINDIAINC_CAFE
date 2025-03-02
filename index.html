@@ -81,7 +81,7 @@
 .popup-content {
     position: relative;
     background: white;
-    padding: 20px;
+    padding: 10px;
     border-radius: 20px;
     max-width: 80%;
     max-height: 80%;
@@ -811,15 +811,106 @@ body.modal-open {
 
 
 
+/*DARK MODE-----///////////////////*/
+    
+    .darkmode {
+      background-color: black;
+      color: white;
+    }
+    .darkmode .container,
+    .darkmode .containerR,
+    .darkmode .containerMeal,
+    .darkmode .order-type-box,
+    .darkmode .order-type-box h3,
+    .darkmode .hover-underline h3,
+    .darkmode .hover-underline2 h4
+    {
+        background-color: #1e1e1e;
+        color: white !important;
+    }
+    .darkmode .switch
+    {
+        color: black;
+    }
+    .darkmode .order-type-box,
+    .darkmode #proceed-payment-btn-lunch
+    {
+        box-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8); /* Strong white shadow */
 
+    }
+    
+    
+    
+    
+    #theme-switch {
+      cursor: pointer;
+      height: 42px;
+      width: 42px;
+      padding: 0;
+      border-radius: 50%;
+      background-color: #D1D9E0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 35px;
+      
+      
+    }
+    .darkmode #theme-switch {
+      height: 42px;
+      width: 42px;
+      padding: 0;
+      border-radius: 50%;
+      background-color: #454545;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 35px;
+    }
+    
+    #theme-switch svg {
+      fill: black;
+    }
+    
+    .darkmode #theme-switch svg
+    {
+        fill: white;
+    }
+    #theme-switch svg:last-child {
+      display: none;
+    }
+    .darkmode #theme-switch svg:first-child {
+      display: none;
+    }
+    .darkmode #theme-switch svg:last-child {
+      display: block;
+    }
+    
+    
+   
+    
     </style>
 </head>
 <body>
     <div class="container">
        
-        <img src="https://www.webindiainc.com/wp-content/uploads/2025/02/Asset-7.png" width="100%" height="100%">
-
-        <br><br><br>
+        <div class="logo-container">
+             <img  src="https://www.webindiainc.com/wp-content/uploads/2025/02/Asset-7.png" width="100%" height="100%">
+        </div>   
+        
+       
+        
+        <!--BUTTON DARK MODE----------------------------->
+        
+        
+        <button id="theme-switch">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+            <path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+            <path d="M480-280q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Z"/>
+          </svg>
+        </button>
         
 
 
@@ -829,7 +920,12 @@ body.modal-open {
         <button class="meal-btn" onclick="openPopup('https://drive.google.com/thumbnail?id=1tL7G_s9MH-MABwRr2exKGZ7vSUs5qLv0&sz=w800')">Here is Our Meal Plan</button>
         <br>
         <button class="menu-btn" onclick="openPopup('https://i.postimg.cc/V62pfpNq/Cafe-Menu.png')">View Our Menu for Lunch & Dinner</button>
-
+        
+        <br>
+        <!--black mode//////-->
+        
+        <!--<button id="darkModeToggle">Dark Mode</button>-->
+        
 
 
         <!-- Popup Container -->
@@ -841,7 +937,7 @@ body.modal-open {
     </div>
         <br><br><br>
         
-
+    
 
 
 
@@ -1181,6 +1277,25 @@ body.modal-open {
 
 
 
+let darkmode = localStorage.getItem('darkmode');
+    const themeSwitch = document.getElementById('theme-switch');
+
+    const enableDarkmode = () => {
+      document.body.classList.add('darkmode');
+      localStorage.setItem('darkmode', 'active');
+    };
+
+    const disableDarkmode = () => {
+      document.body.classList.remove('darkmode');
+      localStorage.setItem('darkmode', null);
+    };
+
+    if (darkmode === "active") enableDarkmode();
+
+    themeSwitch.addEventListener("click", () => {
+      darkmode = localStorage.getItem('darkmode');
+      darkmode !== "active" ? enableDarkmode() : disableDarkmode();
+    });
 
 
 
@@ -1960,149 +2075,69 @@ function calculateEndDate(startDateInput, endDateInput) {
 
 
      
-// ------------------Function validationn ++++ order Placed
+// ------------------Function validationn ++++ order Placed lunch & dinner
           
 document.addEventListener("DOMContentLoaded", function () {
-
-    // Function to validate input for Lunch and Dinner
+    
     function validateInput(inputId, popupMessageId) {
         let input = document.getElementById(inputId);
-        let value = input.value;
         let popupMessage = document.getElementById(popupMessageId);
+        let value = input.value.trim();
 
-        if (value === "") {
-            popupMessage.textContent = "🛑 Can’t Proceed!! Enter the Correct last 4 digits of your Reference ID..";
-            showPopup(popupMessageId);
-            return false; // Prevent form submission
+        if (!value) {
+            showPopup(popupMessageId, "🛑 Can’t Proceed!! Enter the Correct last 4 digits of your Reference ID..");
+            return false;
         } 
-        else if (!/^\d{4}$/.test(value)) 
-        {
-            popupMessage.textContent = "❌ Invalid Input! Only 4 numeric allowed";
-            showPopup(popupMessageId);
-            return false; // Prevent form submission
-        } 
-        else 
-        {
-            return true; // Allow form submission
+        if (!/^\d{4}$/.test(value)) {
+            showPopup(popupMessageId, "❌ Invalid Input! Only 4 numeric allowed");
+            return false;
         }
+        return true;
     }
 
-    // Function to place order for Lunch
     function placeOrder(buttonId, inputId, popupMessageId) {
-        if (validateInput(inputId, popupMessageId)) {
-            let orderButton = document.getElementById(buttonId);
-            orderButton.textContent = "Your order is placed";
-            orderButton.classList.add("clicked");
-            orderButton.disabled = true;
+        if (!validateInput(inputId, popupMessageId)) return;
+        
+        let orderButton = document.getElementById(buttonId);
+        orderButton.textContent = "Your order is placed";
+        orderButton.classList.add("clicked");
+        orderButton.disabled = true;
 
-            // Restore button text after 5 seconds
-            setTimeout(() => {
-                orderButton.textContent = "Submit Order"; // Reset text
-                orderButton.classList.remove("clicked"); // Remove CSS class
-                orderButton.disabled = false; // Re-enable button
-            }, 7000);
-        }
+        setTimeout(() => {
+            orderButton.textContent = "Submit Order";
+            orderButton.classList.remove("clicked");
+            orderButton.disabled = false;
+        }, 7000);
     }
 
-    // Function to place order for Dinner
-    function placeOrder1() {
-        placeOrder("order-button-dinner", "reference-id-dinner", "popup-message-dinner");
+    function showPopup(popupMessageId, message) {
+        let popupMessage = document.getElementById(popupMessageId);
+        let popupBoxId = popupMessageId.includes("dinner") ? "popup-box-dinner" : "popup-box-lunch";
+        
+        popupMessage.textContent = message;
+        document.getElementById(popupBoxId).style.display = "flex";
     }
 
-    // Function to show popup
-    function showPopup(popupMessageId) {
-        let popupBox = popupMessageId.includes("dinner") ? "popup-box-dinner" : "popup-box-lunch";
-        document.getElementById(popupBox).style.display = "flex"; // Ensure proper centering
-    }
-
-    // Function to close popup
     function closePopup(popupBoxId) {
         document.getElementById(popupBoxId).style.display = "none";
     }
 
-    // Ensure close buttons work for both Lunch & Dinner popups
-    document.getElementById("close-btn-lunch").addEventListener("click", function () {
-        closePopup("popup-box-lunch");
-    });
+    document.getElementById("close-btn-lunch").addEventListener("click", () => closePopup("popup-box-lunch"));
+    document.getElementById("close-btn-dinner").addEventListener("click", () => closePopup("popup-box-dinner"));
 
-    document.getElementById("close-btn-dinner").addEventListener("click", function () {
-        closePopup("popup-box-dinner");
-    });
-
-    // Event listener for Lunch order button
-    document.getElementById("order-button").addEventListener("click", function () {
-        placeOrder("order-button", "reference-id", "popup-message-lunch");
-    });
-
-    // Event listener for Dinner order button
-    document.getElementById("order-button-dinner").addEventListener("click", function () {
-        placeOrder1();
-    });
-
+    document.getElementById("order-button").addEventListener("click", () => 
+        placeOrder("order-button", "reference-id", "popup-message-lunch")
+    );
+    
+    document.getElementById("order-button-dinner").addEventListener("click", () => 
+        placeOrder("order-button-dinner", "reference-id-dinner", "popup-message-dinner")
+    );
 });
 
 
 
 
-//------------------------------------------------//Payment linnk----luncchhhhh
 
-//   document.addEventListener("DOMContentLoaded", function () {
-//     let isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    
-//     // Function to handle UPI payment link
-//     function openUPIPayment(amount) {
-//         let upiLink = `upi://pay?pa=9512039029.eazypay@icici&pn=Lunch%20Payment&am=${amount.toFixed(2)}&cu=INR`;
-        
-//         if (isMobile) {
-//             window.location.href = upiLink;
-//         } else {
-//             let qrCode = document.getElementById("qr-code");
-//             if (qrCode) {
-//                 if (qrCode.style.display === "none") {
-//                     qrCode.src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(upiLink);
-//                     qrCode.style.display = "block";
-//                 } else {
-//                     qrCode.style.display = "none";
-//                 }
-//             } else {
-//                 console.error("QR code element with ID 'qr-code' not found!");
-//             }
-//         }
-//     }
-    
-//     // Event listener for payment-button (existing button)
-//     const paymentButton = document.getElementById("payment-button");
-//     if (paymentButton) {
-//         paymentButton.addEventListener("click", function () {
-//             let totalAmount = 100; // Replace with actual amount calculation
-//             openUPIPayment(totalAmount);
-//         });
-//     } else {
-//         console.error("Payment button element with ID 'payment-button' not found!");
-//     }
-
-//     // Event listener for payment-button1 (new button)
-//     const paymentButton1 = document.getElementById("payment-button1");
-//     if (paymentButton1) {
-//         paymentButton1.addEventListener("click", function () {
-//             alert("Payment button 1 clicked!");
-//             // You can add additional actions here
-//         });
-//     } else {
-//         console.error("Payment button element with ID 'payment-button1' not found!");
-//     }
-
-//     // Event listener for pay-button (extra payment button with UPI handling)
-//     const payButton = document.getElementById("pay-button");
-//     if (payButton) {
-//         payButton.addEventListener("click", function () {
-//             let totalAmount = 100; // Replace with actual amount calculation
-//             openUPIPayment(totalAmount);
-//         });
-//     } else {
-//         console.error("Payment button element with ID 'pay-button' not found!");
-//     }
-// });
 
 
 //-------------------------------//Payment linnk----dinnerr-----//////////////////
