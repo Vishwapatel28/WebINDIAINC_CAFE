@@ -1,0 +1,937 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+}
+.container {
+    max-width: 450px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
+}
+
+/* Updated Button Styles */
+.meal-btn {
+    /*display: block;*/
+    width: 60%;
+    padding: 14px;
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+    background: #007bff;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background 0.3s ease, transform 0.2s ease-in-out, box-shadow 0.3s;
+    box-shadow: 0px 5px 10px rgba(0, 123, 255, 0.3);
+}
+.meal-btn:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+    box-shadow: 0px 8px 15px rgba(0, 123, 255, 0.4);
+}
+.menu-btn {
+    /*display: block;*/
+    width: 80%;
+    padding: 15px;
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+    background: #007bff;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background 0.3s ease, transform 0.2s ease-in-out, box-shadow 0.3s;
+    box-shadow: 0px 5px 10px rgba(0, 123, 255, 0.3);
+}
+.menu-btn:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+    box-shadow: 0px 8px 15px rgba(0, 123, 255, 0.4);
+}
+
+/* Popup Background */
+.popup-overlay {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.8); /* Darker background for better visibility */
+justify-content: center;
+align-items: center;
+z-index: 9999; /* Ensure it's above everything */
+}
+
+/* Ensure Modal is on Top */
+.popup-content {
+position: relative;
+background: white;
+padding: 10px;
+border-radius: 20px;
+max-width: 80%;
+max-height: 80%;
+box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+z-index: 10000; /* Keep above the overlay */
+}
+
+/* Ensure Image is Visible */
+.popup-content img {
+max-width: 100%;
+max-height: 600px;
+border-radius: 5px;
+display: block; /* Always show image inside modal */
+}
+
+
+/* Prevent Background Interaction */
+body.modal-open {
+overflow: hidden; /* Prevent scrolling when modal is open */
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 30px;
+    height: 30px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.close-btn:hover {
+    background: black;
+    transform: scale(1.1);
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+.btn {
+    flex: 1;
+    padding: 10px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.btn-lunch { 
+background: linear-gradient(45deg, #ff9933, #ffdd44); 
+color: #5a320b; /* Dark brown for better contrast */
+box-shadow: 0px 8px 15px rgba(9, 9, 9, 0.4); 
+border: none;
+padding: 10px 20px;
+font-size: 16px;
+font-weight:bold;
+cursor: pointer;
+transition: all 0.3s ease-in-out;
+}
+
+.btn-lunch:hover
+{
+    background: #000000;
+    color:white;
+    transform: scale(1.05);
+    box-shadow: 0px 8px 15px rgba(0, 123, 255, 0.7);
+}
+
+.btn-dinner 
+{ 
+background: linear-gradient(45deg, #ff9933, #ffdd44); 
+color: #5a320b; /* Dark brown for better contrast */
+box-shadow: 0px 8px 15px rgba(9, 9, 9, 0.4); 
+border: none;
+padding: 10px 20px;
+font-size: 16px;
+font-weight:bold;
+cursor: pointer;
+transition: all 0.3s ease-in-out;
+    
+}
+.btn-dinner:hover
+{
+    background: #000000;
+    color:white;
+    transform: scale(1.05);
+    box-shadow: 0px 8px 15px #007bffb3;
+}
+
+
+.btn span
+ {
+     font-size: 14px; margin-top: 5px;
+ }
+.menu-options 
+{ 
+    display: none;
+    margin-top: 20px; 
+    text-align: left;
+    font-size: 20px;
+}
+label 
+{ 
+    font-weight: bold; 
+    display: block; 
+    margin-top: 10px;
+    margin-left: 9px;
+}
+select, input {
+    
+    width: 95%; /* Change from 95% to 100% */
+    padding: 10px;
+    margin-top: 5px; /* Reduce margin for better alignment */
+    margin-left: 9px;        
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Ensures uniform width inside parent container */
+}
+#proceed-payment-btn-lunch {
+    background: #007bffb3;
+    color: white;
+    font-size: 20px;
+    
+    margin-top: 20px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+    
+
+    
+}
+
+#proceed-payment-btn-lunch:hover {
+    background: linear-gradient(45deg, #090909, #464445);
+    transform: scale(1.05);
+    
+}
+
+#proceed-payment-btn-lunch:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(11, 11, 11, 0.2);
+}
+
+#proceed-payment-btn-dinner {
+    background: #007bffb3;
+    color: white;
+    font-size: 20px;
+    margin-top: 20px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+    
+}
+
+#proceed-payment-btn-dinner:hover {
+    background: linear-gradient(45deg, #464445, #090909);
+    transform: scale(1.05);
+}
+
+#proceed-payment-btn-dinner:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    
+}
+
+.cool-button {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    margin: 20px auto;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.7);
+}
+
+
+.cool-button:hover {
+    background: black;
+    transform: translateY(-3px);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/*.cool-button.clicked {*/
+/*    background: linear-gradient(135deg, #ff9800, #ff5722);*/
+/*    color: white;*/
+/*    pointer-events: none;*/
+/*    font-size: 20px;*/
+/*    font-weight: bold;*/
+/*    padding: 14px 28px;*/
+/*    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);*/
+/*}*/
+.cool-button.clicked 
+{
+    background: linear-gradient(135deg, #ff9800, #ff5722);
+    color: white;
+    pointer-events: none;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 14px 28px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 600px) {
+    .cool-button {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+    .cool-button.clicked {
+        font-size: 18px;
+        padding: 12px 24px;
+    }
+}
+
+.order-type-box {
+background: #ffffff; /* White background */
+padding: 20px;
+border-radius: 12px; /* Slightly more rounded corners */
+box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.5); /* Strong black shadow */
+margin: 20px 0;
+width: 90%;
+transition: all 0.3s ease-in-out;
+}
+
+/* Slight lift effect on hover */
+.order-type-box:hover {
+box-shadow: 12px 12px 20px rgba(0, 0, 0, 0.6); 
+transform: translateY(-3px);
+}
+
+.order-type-box h3 
+{
+text-align: center;
+font-size: 18px;
+font-weight: bold;
+color: #333;
+margin-bottom: 10px;
+}
+
+/* Styling radio buttons and labels */
+.order-type-box label {
+display: flex;
+align-items: center;
+font-size: 16px;
+padding: 10px;
+background: #f8f8f8;
+border-radius: 6px;
+margin-bottom: 8px;
+cursor: pointer;
+transition: all 0.3s ease-in-out;
+box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Radio button styling */
+.order-type-box input[type="radio"] {
+accent-color: #ff9933;
+margin-right: 12px;
+transform: scale(1.2);
+}
+
+/* Hover effect on options */
+.order-type-box label:hover {
+background: #ffcc80;
+box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+transform: scale(1.02);
+}
+@media (max-width: 480px) {
+.order-type-box {
+width: 95%; /* Make it more flexible */
+padding: 15px; /* Reduce padding for small screens */
+}
+}
+
+
+
+
+
+
+        .hover-underline {
+         position: relative;
+      display: inline-block;
+    }
+    
+    .hover-underline::after,
+    .hover-underline::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, #ff0000, #00ffff);
+      bottom: 3px;
+      left: 0;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.4s ease-out;
+    }
+    
+    .hover-underline::before {
+      top: 11px;
+      transform-origin: left;
+    }
+    
+    .hover-underline:hover::after,
+    .hover-underline:hover::before {
+      transform: scaleX(1);
+    }
+    
+    /*Underlin2*/
+    
+        .hover-underline2 {
+         position: relative;
+      display: inline-block;
+    }
+    
+    .hover-underline2::after,
+    .hover-underline2::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, #ff0000, #00ffff);
+      bottom: 12px;
+      left: 0;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.4s ease-out;
+    }
+    
+    .hover-underline2::before {
+      top: -8px;
+      transform-origin: left;
+    }
+    
+    .hover-underline2:hover::after,
+    .hover-underline2:hover::before {
+      transform: scaleX(1);
+    }
+    
+    
+    
+    /* Popup Box Styles */
+.popup-box {
+display: none; /* Hidden by default */
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.5); /* Background with some transparency */
+z-index: 9999; /* Ensure the popup is on top of other content */
+justify-content: center;
+align-items: center;
+text-align: center;
+}
+
+/* Popup Content Styles */
+.popup-content {
+background-color: #fff;
+padding: 20px;
+border-radius: 8px;
+width: 300px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Close Button Styles */
+.close-btn {
+position: absolute;
+top: 10px;
+right: 10px;
+font-size: 24px;
+color: #030303;
+background:red;
+cursor: pointer;
+transition: color 0.3s;
+}
+
+.close-btn:hover {
+color: white;
+background:blue;
+}
+
+/* Message inside the popup */
+#popup-message-lunch, 
+#popup-message-dinner {
+font-size: 20px;
+font-weight: bold;
+color: #030303;
+}
+
+
+    
+    /* Hide the browser's default radio button */
+.containerR 
+ {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Moves text left and radio right */
+    width: 85%; /* Adjust width as needed */
+    position: relative;
+    cursor: pointer;
+    font-size: 16px;
+    
+}
+
+
+    .containerR input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    }
+
+    .checkmark {
+    position: relative;
+    height: 23px;
+    width: 23px;
+    background-color: #eee;
+    border-radius: 50%;
+    margin-left:auto; /* Space between text and radio button */
+    }
+
+    /* On mouse-over, add a grey background color */
+    .containerR:hover input ~ .checkmark {
+    background-color: orange;
+    }
+
+    /* When the radio button is checked, add a blue background */
+    .containerR input:checked ~ .checkmark {
+    background-color: #2196F3;
+    }
+
+    /* Create the indicator (the dot/circle - hidden when not checked) */
+    .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    }
+
+    /* Show the indicator (dot/circle) when checked */
+    .containerR input:checked ~ .checkmark:after {
+    display: block;
+    }
+
+    /* Style the indicator (dot/circle) */
+    .containerR .checkmark:after {
+    top: 8px;
+    left: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+    }  
+    /* Hide the browser's default radio button */
+.containerMeal 
+{
+display: flex;
+align-items: center;
+justify-content: space-between; /* Moves text left and radio right */
+width: 85%; /* Adjust width as needed */
+position: relative;
+cursor: pointer;
+font-size: 16px;
+}
+
+.containerMeal input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+}
+
+.checkmark {
+position: relative;
+height: 23px;
+width: 23px;
+background-color: #eee;
+border-radius: 50%;
+margin-left:auto; /* Space between text and radio button */
+}
+
+/* On mouse-over, add a grey background color */
+.containerMeal:hover input ~ .checkmark {
+background-color: #ffa500;
+}
+
+/* When the radio button is checked, add a blue background */
+.containerMeal input:checked ~ .checkmark {
+background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+content: "";
+position: absolute;
+display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.containerMeal input:checked ~ .checkmark:after {
+display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.containerMeal .checkmark:after {
+top: 8px;
+left: 8px;
+width: 8px;
+height: 8px;
+border-radius: 50%;
+background: white;
+}  
+
+#roti-container 
+{
+    display: none; /* Initially hidden */
+    text-align: center;
+    margin-top: 20px;
+}
+  /* Flexbox to align items in one row */
+.switch 
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px; /* Increased spacing for better layout */
+    padding: 5px;
+    flex-wrap: wrap; /* Allows items to move to the next line */
+}
+
+
+/* Hide default radio buttons */
+input[type="radio"] {
+    display: none;
+    
+}
+
+/* Custom radio button appearance */
+.switch__label {
+    display: inline-block;
+    border: 2px solid #000;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+@media (max-width: 480px) {
+.switch__label {
+width: 15px; /* Smaller button width */
+height: 15px; /* Smaller button height */
+font-size: 14px; /* Smaller text */
+}
+}
+
+
+/* Highlight when selected */
+input[type="radio"]:checked + .switch__label {
+    background: linear-gradient(49deg, #ff9933, #ffdd44);
+}
+
+.order-type {
+text-align: center;
+width: 100%;
+margin: 0 auto; /* Centers the element horizontally */
+}
+
+
+.wrap {
+height: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.paymentd-btn {
+min-width: 80%;
+max-width: 400px;
+min-height: 10px;
+display: inline-flex;
+font-family: 'Nunito', sans-serif;
+font-size: 22px;
+align-items: center;
+justify-content: center;
+text-transform: uppercase;
+text-align: center;
+letter-spacing: 1.3px;
+font-weight: 700;
+color: #313133;
+background: #ffa500;
+background: linear-gradient(90deg,#ffa500 0%,#ffa500 100%);
+border: none;
+border-radius: 700px;
+box-shadow: 12px 12px 24px #ffa500();
+transition: all 0.3s ease-in-out 0s;
+cursor: pointer;
+outline: none;
+position: relative;
+padding: 10px;
+}
+
+.paymentd-btn::before 
+{
+content: '';
+border-radius: 550px;
+min-width: 105%;
+max-width:500px;
+min-height: 60px;
+border: 6px solid #ffa500;
+box-shadow: 0 0 60px #ffa500;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+opacity: 0;
+transition: all .3s ease-in-out 0s;
+}
+
+.paymentd-btn:hover, 
+.paymentd-btn:focus {
+color: #313133;
+transform: translateY(-6px);
+}
+
+.paymentd-btn:hover::before, 
+.paymentd-btn:focus::before {
+opacity: 1;
+}
+
+.paymentd-btn::after {
+content: '';
+width: 30px; height: 30px;
+border-radius: 100%;
+border: 6px solid #ffa500;
+position: absolute;
+z-index: -1;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+animation: ring 1.5s infinite;
+}
+
+.paymentd-btn:hover::after, 
+.paymentd-btn:focus::after {
+animation: none;
+display: none;
+}
+
+@media (max-width: 480px) {
+.paymentd-btn {
+font-size: 18px;  /* Reduce text size */
+padding: 8px;     /* Reduce padding */
+}
+}
+
+
+@keyframes ring {
+0% {
+width: 120px;
+height: 50px;
+opacity: 1;
+}
+100% {
+width: 300px;
+height: 300px;
+opacity: 0;
+}
+}
+#qr-code,#qr-code-dinner {
+display: none; /* Initially hidden */
+margin-top: 20px;
+width: 200px; /* Set a fixed width */
+max-width: 100%; /* Ensure it does not overflow */
+}
+
+/* Centering for different screen sizes */
+@media screen and (max-width: 768px) {
+#qr-code,#qr-code-dinner {
+margin-left: auto;
+margin-right: auto;
+display: block;
+}
+}
+
+@media screen and (min-width: 769px) {
+#qr-code ,#qr-code-dinner {
+margin-left: 120px; /* Maintain original margin on larger screens */
+}
+}
+
+
+/* popup of feedback */
+
+.custom-popup {
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+background: linear-gradient(135deg, #ff7f00, #007bff); /* Orange to Blue gradient */
+color: white;
+padding: 25px;
+border-radius: 15px;
+box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+text-align: center;
+z-index: 9999;
+max-width: 90%;
+width: 320px;
+font-family: Arial, sans-serif;
+}
+
+.custom-popup p {
+font-size: 18px;
+font-weight: bold;
+margin-bottom: 15px;
+}
+
+.custom-popup a {
+display: inline-block;
+padding: 10px 15px;
+font-size: 16px;
+color: #fff;
+background: #004aad;
+text-decoration: none;
+border-radius: 5px;
+transition: background 0.3s ease-in-out;
+}
+
+.custom-popup a:hover {
+background: #002f6c;
+}
+
+.custom-popup button {
+margin-top: 15px;
+padding: 8px 15px;
+font-size: 16px;
+border: none;
+background: #ff4444;
+color: white;
+border-radius: 8px;
+cursor: pointer;
+transition: background 0.3s ease-in-out;
+}
+
+.custom-popup button:hover {
+background: #cc0000;
+}
+
+
+
+/*DARK MODE-----///////////////////*/
+
+.darkmode {
+background-color: black;
+color: white;
+}
+.darkmode .container,
+.darkmode .containerR,
+.darkmode .containerMeal,
+.darkmode .order-type-box,
+.darkmode .order-type-box h3,
+.darkmode .hover-underline h3,
+.darkmode .hover-underline2 h4
+{
+background-color: #1e1e1e;
+color: white !important;
+}
+.darkmode .switch
+{
+color: black;
+}
+.darkmode .order-type-box,
+.darkmode #proceed-payment-btn-lunch
+{
+box-shadow: 3px 3px 15px rgba(255, 255, 255, 0.8); /* Strong white shadow */
+
+}
+
+
+
+
+#theme-switch {
+cursor: pointer;
+height: 42px;
+width: 42px;
+padding: 0;
+border-radius: 50%;
+background-color: #D1D9E0;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-left: 27px;
+margin-top: 25px;
+
+}
+.darkmode #theme-switch {
+height: 42px;
+width: 42px;
+padding: 0;
+border-radius: 50%;
+background-color: #454545;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-left: 27px;
+}
+
+#theme-switch svg {
+fill: black;
+}
+
+.darkmode #theme-switch svg
+{
+fill: white;
+}
+#theme-switch svg:last-child {
+display: none;
+}
+.darkmode #theme-switch svg:first-child {
+display: none;
+}
+.darkmode #theme-switch svg:last-child {
+display: block;
+}
